@@ -1,0 +1,671 @@
+31134 execve("./server", ["./server"], [/* 38 vars */]) = 0
+31134 brk(0)                            = 0xfd6000
+31134 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+31134 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbde325e000
+31134 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+31134 open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+31134 fstat(3, {st_mode=S_IFREG|0644, st_size=81470, ...}) = 0
+31134 mmap(NULL, 81470, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fbde324a000
+31134 close(3)                          = 0
+31134 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+31134 open("/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+31134 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\200l\0\0\0\0\0\0"..., 832) = 832
+31134 fstat(3, {st_mode=S_IFREG|0755, st_size=135398, ...}) = 0
+31134 mmap(NULL, 2212936, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fbde2e21000
+31134 mprotect(0x7fbde2e39000, 2093056, PROT_NONE) = 0
+31134 mmap(0x7fbde3038000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17000) = 0x7fbde3038000
+31134 mmap(0x7fbde303a000, 13384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fbde303a000
+31134 close(3)                          = 0
+31134 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+31134 open("/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+31134 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\200\30\2\0\0\0\0\0"..., 832) = 832
+31134 fstat(3, {st_mode=S_IFREG|0755, st_size=1811160, ...}) = 0
+31134 mmap(NULL, 3925240, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fbde2a62000
+31134 mprotect(0x7fbde2c17000, 2093056, PROT_NONE) = 0
+31134 mmap(0x7fbde2e16000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b4000) = 0x7fbde2e16000
+31134 mmap(0x7fbde2e1c000, 17656, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fbde2e1c000
+31134 close(3)                          = 0
+31134 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbde3249000
+31134 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbde3248000
+31134 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbde3247000
+31134 arch_prctl(ARCH_SET_FS, 0x7fbde3248700) = 0
+31134 mprotect(0x7fbde2e16000, 16384, PROT_READ) = 0
+31134 mprotect(0x7fbde3038000, 4096, PROT_READ) = 0
+31134 mprotect(0x602000, 4096, PROT_READ) = 0
+31134 mprotect(0x7fbde3260000, 4096, PROT_READ) = 0
+31134 munmap(0x7fbde324a000, 81470)     = 0
+31134 set_tid_address(0x7fbde32489d0)   = 31134
+31134 set_robust_list(0x7fbde32489e0, 0x18) = 0
+31134 futex(0x7fff78aac2cc, FUTEX_WAIT_BITSET_PRIVATE|FUTEX_CLOCK_REALTIME, 1, NULL, 7fbde3248700) = -1 EAGAIN (Resource temporarily unavailable)
+31134 rt_sigaction(SIGRTMIN, {0x7fbde2e27750, [], SA_RESTORER|SA_SIGINFO, 0x7fbde2e30cb0}, NULL, 8) = 0
+31134 rt_sigaction(SIGRT_1, {0x7fbde2e277e0, [], SA_RESTORER|SA_RESTART|SA_SIGINFO, 0x7fbde2e30cb0}, NULL, 8) = 0
+31134 rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+31134 getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM_INFINITY}) = 0
+31134 open("server.cfg", O_RDONLY)      = 3
+31134 read(3, "port=8080 droot=/home/niko/www\n", 1024) = 31
+31134 fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+31134 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbde325d000
+31134 write(1, "El puerto es: 8080\n", 19) = 19
+31134 write(1, "El directorio raiz es: /home/nik"..., 38) = 38
+31134 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 4
+31134 setsockopt(4, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
+31134 bind(4, {sa_family=AF_INET, sin_port=htons(8080), sin_addr=inet_addr("127.0.0.1")}, 16) = 0
+31134 listen(4, 10)                     = 0
+31134 write(1, "Aceptando conexiones...\n", 24) = 24
+31134 write(1, "\n", 1)                 = 1
+31134 accept(4, 0, NULL)                = 5
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7fbde2261000
+31134 brk(0)                            = 0xfd6000
+31134 brk(0xff7000)                     = 0xff7000
+31134 mprotect(0x7fbde2261000, 4096, PROT_NONE) = 0
+31134 clone(child_stack=0x7fbde2a60ff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde2a619d0, tls=0x7fbde2a61700, child_tidptr=0x7fbde2a619d0) = 31139
+31139 set_robust_list(0x7fbde2a619e0, 0x18 <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... set_robust_list resumed> )   = 0
+31134 <... accept resumed> 0, NULL)     = 6
+31139 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31134 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31139 <... write resumed> )             = 21
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31134 <... futex resumed> )             = 0
+31139 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = 1
+31139 write(1, "Socket: 5\n", 10 <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... write resumed> )             = 10
+31134 <... mmap resumed> )              = 0x7fbde1a60000
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 mprotect(0x7fbde1a60000, 4096, PROT_NONE <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... mprotect resumed> )          = 0
+31139 read(5,  <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... read resumed> "GET /index.html HTTP/1.0\r\nHost: "..., 4096) = 92
+31134 <... clone resumed> child_stack=0x7fbde225fff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde22609d0, tls=0x7fbde2260700, child_tidptr=0x7fbde22609d0) = 31140
+31139 write(1, "Consulta del cliente:\n", 22 <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... write resumed> )             = 22
+31134 <... accept resumed> 0, NULL)     = 7
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31139 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = 1
+31139 write(1, "GET /index.html HTTP/1.0\r\nHost: "..., 92 <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... write resumed> )             = 92
+31134 <... mmap resumed> )              = 0x7fbde125f000
+31139 write(1, "\n", 1 <unfinished ...>
+31134 mprotect(0x7fbde125f000, 4096, PROT_NONE <unfinished ...>
+31139 <... write resumed> )             = 1
+31134 <... mprotect resumed> )          = 0
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... clone resumed> child_stack=0x7fbde1a5eff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde1a5f9d0, tls=0x7fbde1a5f700, child_tidptr=0x7fbde1a5f9d0) = 31141
+31139 write(1, "Metodo: GET\n", 12 <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... write resumed> )             = 12
+31134 <... accept resumed> 0, NULL)     = 8
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31139 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = 1
+31139 write(1, "File: /index.html\n", 18 <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... write resumed> )             = 18
+31134 <... mmap resumed> )              = 0x7fbde0a5e000
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 mprotect(0x7fbde0a5e000, 4096, PROT_NONE <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... mprotect resumed> )          = 0
+31139 write(1, "Mime/Type: text/html\n", 21 <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... write resumed> )             = 21
+31134 <... clone resumed> child_stack=0x7fbde125dff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde125e9d0, tls=0x7fbde125e700, child_tidptr=0x7fbde125e9d0) = 31142
+31139 write(1, "Pedido: /home/niko/www/index.htm"..., 34 <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... write resumed> )             = 34
+31134 <... accept resumed> 0, NULL)     = 9
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31139 open("/home/niko/www/index.html", O_RDONLY <unfinished ...>
+31134 write(1, "\n", 1 <unfinished ...>
+31139 <... open resumed> )              = 10
+31134 <... write resumed> )             = 1
+31139 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... futex resumed> )             = 1
+31139 write(1, "200 OK! respondiendo peticion pa"..., 58 <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... write resumed> )             = 58
+31134 <... mmap resumed> )              = 0x7fbde025d000
+31139 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31134 mprotect(0x7fbde025d000, 4096, PROT_NONE <unfinished ...>
+31139 <... futex resumed> )             = 0
+31134 <... mprotect resumed> )          = 0
+31139 fstat(10,  <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... fstat resumed> {st_mode=S_IFREG|0777, st_size=102, ...}) = 0
+31134 <... clone resumed> child_stack=0x7fbde0a5cff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde0a5d9d0, tls=0x7fbde0a5d700, child_tidptr=0x7fbde0a5d9d0) = 31143
+31139 write(5, "HTTP/1.0 200\r\nContent-Type: text"..., 62 <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... write resumed> )             = 62
+31134 <... accept resumed> 0, NULL)     = 11
+31139 read(10,  <unfinished ...>
+31134 write(1, "\n", 1 <unfinished ...>
+31139 <... read resumed> "<html>\r\n\t<head>\r\n\t\t<title>Formul"..., 1024) = 102
+31134 <... write resumed> )             = 1
+31139 write(5, "<html>\r\n\t<head>\r\n\t\t<title>Formul"..., 102 <unfinished ...>
+31134 write(1, "Cliente conectado.\n", 19 <unfinished ...>
+31139 <... write resumed> )             = 102
+31134 <... write resumed> )             = 19
+31139 read(10,  <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... read resumed> "", 1024)      = 0
+31134 <... mmap resumed> )              = 0x7fbddfa5c000
+31139 write(1, "Socket: 5\n", 10 <unfinished ...>
+31134 mprotect(0x7fbddfa5c000, 4096, PROT_NONE <unfinished ...>
+31139 <... write resumed> )             = 10
+31134 <... mprotect resumed> )          = 0
+31139 close(5 <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... close resumed> )             = 0
+31134 <... clone resumed> child_stack=0x7fbde025bff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbde025c9d0, tls=0x7fbde025c700, child_tidptr=0x7fbde025c9d0) = 31144
+31139 open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+31134 accept(4,  <unfinished ...>
+31139 <... open resumed> )              = 12
+31134 <... accept resumed> 0, NULL)     = 5
+31139 fstat(12,  <unfinished ...>
+31134 write(1, "\n", 1 <unfinished ...>
+31139 <... fstat resumed> {st_mode=S_IFREG|0644, st_size=81470, ...}) = 0
+31134 <... write resumed> )             = 1
+31139 mmap(NULL, 81470, PROT_READ, MAP_PRIVATE, 12, 0 <unfinished ...>
+31134 write(1, "Cliente conectado.\n", 19 <unfinished ...>
+31139 <... mmap resumed> )              = 0x7fbddfa48000
+31134 <... write resumed> )             = 19
+31139 close(12 <unfinished ...>
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0 <unfinished ...>
+31139 <... close resumed> )             = 0
+31134 <... mmap resumed> )              = 0x7fbddf247000
+31139 access("/etc/ld.so.nohwcap", F_OK <unfinished ...>
+31134 mprotect(0x7fbddf247000, 4096, PROT_NONE <unfinished ...>
+31139 <... access resumed> )            = -1 ENOENT (No such file or directory)
+31134 <... mprotect resumed> )          = 0
+31139 open("/lib/x86_64-linux-gnu/libgcc_s.so.1", O_RDONLY|O_CLOEXEC <unfinished ...>
+31134 clone( <unfinished ...>
+31139 <... open resumed> )              = 12
+31134 <... clone resumed> child_stack=0x7fbddfa46ff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbddfa479d0, tls=0x7fbddfa47700, child_tidptr=0x7fbddfa479d0) = 31145
+31134 accept(4, 0, NULL)                = 13
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7fbddea46000
+31134 mprotect(0x7fbddea46000, 4096, PROT_NONE) = 0
+31134 clone(child_stack=0x7fbddf245ff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbddf2469d0, tls=0x7fbddf246700, child_tidptr=0x7fbddf2469d0) = 31146
+31134 accept(4, 0, NULL)                = 14
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7fbdde245000
+31134 mprotect(0x7fbdde245000, 4096, PROT_NONE) = 0
+31134 clone(child_stack=0x7fbddea44ff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbddea459d0, tls=0x7fbddea45700, child_tidptr=0x7fbddea459d0) = 31147
+31134 accept(4, 0, NULL)                = 15
+31134 write(1, "\n", 1)                 = 1
+31134 write(1, "Cliente conectado.\n", 19) = 19
+31134 mmap(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7fbddda44000
+31134 mprotect(0x7fbddda44000, 4096, PROT_NONE) = 0
+31134 clone(child_stack=0x7fbdde243ff0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7fbdde2449d0, tls=0x7fbdde244700, child_tidptr=0x7fbdde2449d0) = 31148
+31134 accept(4,  <unfinished ...>
+31140 set_robust_list(0x7fbde22609e0, 0x18 <unfinished ...>
+31139 read(12,  <unfinished ...>
+31140 <... set_robust_list resumed> )   = 0
+31139 <... read resumed> "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\20*\0\0\0\0\0\0"..., 832) = 832
+31140 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31139 open("/sys/devices/system/cpu/online", O_RDONLY|O_CLOEXEC <unfinished ...>
+31140 <... write resumed> )             = 21
+31139 <... open resumed> )              = 17
+31140 write(1, "Socket: 15\n", 11 <unfinished ...>
+31139 read(17,  <unfinished ...>
+31140 <... write resumed> )             = 11
+31139 <... read resumed> "0-1\n", 8192) = 4
+31140 read(15,  <unfinished ...>
+31139 close(17 <unfinished ...>
+31140 <... read resumed> "GET /index.html HTTP/1.0\r\nHost: "..., 4096) = 92
+31139 <... close resumed> )             = 0
+31140 write(1, "Consulta del cliente:\n", 22 <unfinished ...>
+31139 mmap(NULL, 134217728, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+31140 <... write resumed> )             = 22
+31139 <... mmap resumed> )              = 0x7fbdd5a44000
+31140 write(1, "GET /index.html HTTP/1.0\r\nHost: "..., 92 <unfinished ...>
+31139 munmap(0x7fbdd5a44000, 39567360 <unfinished ...>
+31144 set_robust_list(0x7fbde025c9e0, 0x18 <unfinished ...>
+31140 <... write resumed> )             = 92
+31139 <... munmap resumed> )            = 0
+31144 <... set_robust_list resumed> )   = 0
+31140 write(1, "\n", 1 <unfinished ...>
+31139 munmap(0x7fbddc000000, 27541504 <unfinished ...>
+31144 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 <... write resumed> )             = 1
+31139 <... munmap resumed> )            = 0
+31139 mprotect(0x7fbdd8000000, 135168, PROT_READ|PROT_WRITE) = 0
+31139 fstat(12, {st_mode=S_IFREG|0644, st_size=88400, ...}) = 0
+31139 mmap(NULL, 2184216, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 12, 0) = 0x7fbddd82e000
+31139 mprotect(0x7fbddd843000, 2093056, PROT_NONE) = 0
+31139 mmap(0x7fbddda42000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 12, 0x14000) = 0x7fbddda42000
+31139 close(12)                         = 0
+31139 mprotect(0x7fbddda42000, 4096, PROT_READ) = 0
+31139 munmap(0x7fbddfa48000, 81470)     = 0
+31139 futex(0x7fbddda431a4, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+31139 madvise(0x7fbde2261000, 8368128, MADV_DONTNEED) = 0
+31139 _exit(0)                          = ?
+31144 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31148 set_robust_list(0x7fbdde2449e0, 0x18 <unfinished ...>
+31147 set_robust_list(0x7fbddea459e0, 0x18 <unfinished ...>
+31146 set_robust_list(0x7fbddf2469e0, 0x18 <unfinished ...>
+31145 set_robust_list(0x7fbddfa479e0, 0x18 <unfinished ...>
+31144 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31140 <... futex resumed> )             = 0
+31148 <... set_robust_list resumed> )   = 0
+31147 <... set_robust_list resumed> )   = 0
+31146 <... set_robust_list resumed> )   = 0
+31145 <... set_robust_list resumed> )   = 0
+31144 <... write resumed> )             = 21
+31140 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31148 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31147 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31146 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31145 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31144 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31145 <... write resumed> )             = 21
+31144 <... futex resumed> )             = 1
+31140 <... futex resumed> )             = 0
+31145 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31144 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31146 <... futex resumed> )             = 0
+31145 <... futex resumed> )             = 1
+31144 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31140 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31146 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31145 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31144 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 write(1, "Metodo: GET\n", 12)     = 12
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31147 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 write(1, "File: /index.html\n", 18) = 18
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31148 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31148 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 write(1, "Mime/Type: text/html\n", 21) = 21
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31144 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31144 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 write(1, "Pedido: /home/niko/www/index.htm"..., 34) = 34
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31145 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31145 write(1, "Socket: 15\n", 11 <unfinished ...>
+31140 open("/home/niko/www/index.html", O_RDONLY <unfinished ...>
+31145 <... write resumed> )             = 11
+31140 <... open resumed> )              = 12
+31145 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31140 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31146 <... futex resumed> )             = 0
+31145 <... futex resumed> )             = 1
+31140 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31146 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31145 read(15,  <unfinished ...>
+31140 write(1, "200 OK! respondiendo peticion pa"..., 58) = 58
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31147 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31140 fstat(12,  <unfinished ...>
+31147 <... write resumed> )             = 21
+31140 <... fstat resumed> {st_mode=S_IFREG|0777, st_size=102, ...}) = 0
+31147 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31140 write(15, "HTTP/1.0 200\r\nContent-Type: text"..., 62 <unfinished ...>
+31148 <... futex resumed> )             = 0
+31147 <... futex resumed> )             = 1
+31140 <... write resumed> )             = 62
+31148 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31147 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 read(12,  <unfinished ...>
+31148 <... write resumed> )             = 21
+31140 <... read resumed> "<html>\r\n\t<head>\r\n\t\t<title>Formul"..., 1024) = 102
+31148 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31143 set_robust_list(0x7fbde0a5d9e0, 0x18 <unfinished ...>
+31140 write(15, "<html>\r\n\t<head>\r\n\t\t<title>Formul"..., 102 <unfinished ...>
+31148 <... futex resumed> )             = 1
+31144 <... futex resumed> )             = 0
+31143 <... set_robust_list resumed> )   = 0
+31140 <... write resumed> )             = 102
+31148 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31144 write(1, "Socket: 15\n", 11 <unfinished ...>
+31143 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 read(12,  <unfinished ...>
+31144 <... write resumed> )             = 11
+31140 <... read resumed> "", 1024)      = 0
+31144 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31140 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31146 <... futex resumed> )             = 0
+31144 <... futex resumed> )             = 1
+31140 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31146 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31144 read(15,  <unfinished ...>
+31140 write(1, "Socket: 15\n", 11)      = 11
+31140 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... futex resumed> )             = 0
+31140 <... futex resumed> )             = 1
+31147 write(1, "Socket: 15\n", 11 <unfinished ...>
+31140 close(15 <unfinished ...>
+31147 <... write resumed> )             = 11
+31140 <... close resumed> )             = 0
+31147 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31142 set_robust_list(0x7fbde125e9e0, 0x18 <unfinished ...>
+31140 madvise(0x7fbde1a60000, 8368128, MADV_DONTNEED <unfinished ...>
+31148 <... futex resumed> )             = 0
+31147 <... futex resumed> )             = 1
+31142 <... set_robust_list resumed> )   = 0
+31140 <... madvise resumed> )           = 0
+31148 write(1, "Socket: 15\n", 11 <unfinished ...>
+31147 read(15,  <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31140 _exit(0)                          = ?
+31148 <... write resumed> )             = 11
+31147 <... read resumed> 0x7fbddea43ed0, 4096) = -1 EBADF (Bad file descriptor)
+31148 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 dup(2 <unfinished ...>
+31148 <... futex resumed> )             = 1
+31147 <... dup resumed> )               = 15
+31143 <... futex resumed> )             = 0
+31148 read(15,  <unfinished ...>
+31147 fcntl(15, F_GETFL <unfinished ...>
+31143 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31147 <... fcntl resumed> )             = 0x8002 (flags O_RDWR|O_LARGEFILE)
+31143 <... write resumed> )             = 21
+31147 fstat(15,  <unfinished ...>
+31143 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... fstat resumed> {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+31146 <... futex resumed> )             = 0
+31143 <... futex resumed> )             = 1
+31147 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0 <unfinished ...>
+31146 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31143 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31147 <... mmap resumed> )              = 0x7fbde325c000
+31146 <... write resumed> )             = 21
+31147 lseek(15, 0, SEEK_CUR <unfinished ...>
+31146 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... lseek resumed> )             = -1 ESPIPE (Illegal seek)
+31146 <... futex resumed> )             = 1
+31142 <... futex resumed> )             = 0
+31147 write(15, "Error al leer del socket: Bad fi"..., 46 <unfinished ...>
+31146 write(1, "Socket: 15\n", 11 <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31147 <... write resumed> )             = 46
+31146 <... write resumed> )             = 11
+31147 close(15 <unfinished ...>
+31146 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... close resumed> )             = 0
+31146 <... futex resumed> )             = 1
+31143 <... futex resumed> )             = 0
+31147 munmap(0x7fbde325c000, 4096 <unfinished ...>
+31146 read(15,  <unfinished ...>
+31143 write(1, "Socket: 15\n", 11 <unfinished ...>
+31147 <... munmap resumed> )            = 0
+31146 <... read resumed> 0x7fbddf244ed0, 4096) = -1 EBADF (Bad file descriptor)
+31143 <... write resumed> )             = 11
+31147 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31146 dup(2 <unfinished ...>
+31143 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31147 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31146 <... dup resumed> )               = 15
+31143 <... futex resumed> )             = 1
+31142 <... futex resumed> )             = 0
+31147 write(1, "Consulta del cliente:\n", 22 <unfinished ...>
+31146 fcntl(15, F_GETFL <unfinished ...>
+31143 read(15,  <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31147 <... write resumed> )             = 22
+31146 <... fcntl resumed> )             = 0x8002 (flags O_RDWR|O_LARGEFILE)
+31147 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31146 mmap(NULL, 134217728, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0 <unfinished ...>
+31147 <... futex resumed> )             = 1
+31146 <... mmap resumed> )              = 0x7fbdd0000000
+31142 <... futex resumed> )             = 0
+31141 set_robust_list(0x7fbde1a5f9e0, 0x18 <unfinished ...>
+31147 write(1, "\n", 1 <unfinished ...>
+31146 munmap(0x7fbdd4000000, 67108864 <unfinished ...>
+31147 <... write resumed> )             = 1
+31146 <... munmap resumed> )            = 0
+31147 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31146 mprotect(0x7fbdd0000000, 135168, PROT_READ|PROT_WRITE <unfinished ...>
+31147 <... futex resumed> )             = 0
+31146 <... mprotect resumed> )          = 0
+31147 write(1, "No se encontro un salto de linea"..., 46 <unfinished ...>
+31146 fstat(15,  <unfinished ...>
+31147 <... write resumed> )             = 46
+31147 write(1, "Metodo: NA\n", 11)      = 11
+31147 write(1, "File: NA\n", 9)         = 9
+31147 write(1, "Mime/Type: NA\n", 14)   = 14
+31147 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31147 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = 30
+31147 write(15, "Content-Type: text/html\r\n\r\n", 27) = 27
+31147 write(15, "<html><head><title>Error 501</ti"..., 43) = 43
+31147 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = 112
+31147 write(1, "Socket: 15\n", 11)      = 11
+31147 close(15)                         = 0
+31147 madvise(0x7fbdde245000, 8368128, MADV_DONTNEED) = 0
+31146 <... fstat resumed> {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+31147 _exit(0)                          = ?
+31146 mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0 <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31141 <... set_robust_list resumed> )   = 0
+31146 <... mmap resumed> )              = 0x7fbde325c000
+31142 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31141 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31146 lseek(15, 0, SEEK_CUR)            = -1 EBADF (Bad file descriptor)
+31146 munmap(0x7fbde325c000, 4096)      = 0
+31146 close(15)                         = -1 EBADF (Bad file descriptor)
+31146 write(2, "Error al leer del socket: Bad fi"..., 46 <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31141 <... write resumed> )             = 21
+31146 <... write resumed> )             = 46
+31146 write(1, "Consulta del cliente:\n", 22) = 22
+31146 write(1, "\n", 1)                 = 1
+31146 write(1, "No se encontro un salto de linea"..., 46) = 46
+31146 write(1, "Metodo: NA\n", 11)      = 11
+31146 write(1, "File: NA\n", 9)         = 9
+31146 write(1, "Mime/Type: NA\n", 14)   = 14
+31146 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31146 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = -1 EBADF (Bad file descriptor)
+31146 write(1, "Error al intentar escribir en so"..., 38 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31146 <... write resumed> )             = 38
+31146 write(15, "Content-Type: text/html\r\n\r\n", 27) = -1 EBADF (Bad file descriptor)
+31146 write(1, "Error al intentar escribir en so"..., 38) = 38
+31146 write(15, "<html><head><title>Error 501</ti"..., 43) = -1 EBADF (Bad file descriptor)
+31146 write(1, "Error al intentar escribir en so"..., 38) = 38
+31146 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = -1 EBADF (Bad file descriptor)
+31146 write(1, "Error al intentar escribir en so"..., 38) = 38
+31146 write(1, "Socket: 15\n", 11)      = 11
+31146 close(15)                         = -1 EBADF (Bad file descriptor)
+31146 madvise(0x7fbddea46000, 8368128, MADV_DONTNEED <unfinished ...>
+31142 <... futex resumed> )             = 0
+31141 <... futex resumed> )             = 1
+31146 <... madvise resumed> )           = 0
+31142 write(1, "HILO ENTRO EN RUTINA\n", 21 <unfinished ...>
+31146 _exit(0)                          = ?
+31142 <... write resumed> )             = 21
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31141 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31142 <... futex resumed> )             = 0
+31141 write(1, "Socket: 15\n", 11 <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31141 <... write resumed> )             = 11
+31141 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31142 <... futex resumed> )             = 0
+31141 <... futex resumed> )             = 1
+31142 write(1, "Socket: 15\n", 11 <unfinished ...>
+31141 read(15,  <unfinished ...>
+31142 <... write resumed> )             = 11
+31141 <... read resumed> 0x7fbde1a5ded0, 4096) = -1 EBADF (Bad file descriptor)
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31141 write(2, "Error al leer del socket: Bad fi"..., 46 <unfinished ...>
+31142 <... futex resumed> )             = 0
+31141 <... write resumed> )             = 46
+31142 read(15,  <unfinished ...>
+31141 write(1, "Consulta del cliente:\n", 22 <unfinished ...>
+31142 <... read resumed> 0x7fbde125ced0, 4096) = -1 EBADF (Bad file descriptor)
+31142 write(2, "Error al leer del socket: Bad fi"..., 46 <unfinished ...>
+31141 <... write resumed> )             = 22
+31142 <... write resumed> )             = 46
+31141 write(1, "\n", 1 <unfinished ...>
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31141 <... write resumed> )             = 1
+31141 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31142 <... futex resumed> )             = 0
+31141 <... futex resumed> )             = 1
+31142 write(1, "Consulta del cliente:\n", 22 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 <... write resumed> )             = 22
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31141 <... futex resumed> )             = 0
+31142 write(1, "\n", 1 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 <... write resumed> )             = 1
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31141 <... futex resumed> )             = 0
+31142 write(1, "No se encontro un salto de linea"..., 46 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 <... write resumed> )             = 46
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 0
+31141 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+31142 write(1, "Metodo: NA\n", 11 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 <... write resumed> )             = 11
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31141 <... futex resumed> )             = 0
+31142 write(1, "File: NA\n", 9 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 <... write resumed> )             = 9
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31141 <... futex resumed> )             = 0
+31142 write(1, "Mime/Type: NA\n", 14)   = 14
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 0
+31142 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31142 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = -1 EBADF (Bad file descriptor)
+31142 write(1, "Error al intentar escribir en so"..., 38) = 38
+31142 write(15, "Content-Type: text/html\r\n\r\n", 27) = -1 EBADF (Bad file descriptor)
+31142 write(1, "Error al intentar escribir en so"..., 38 <unfinished ...>
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL) = -1 EAGAIN (Resource temporarily unavailable)
+31142 <... write resumed> )             = 38
+31142 write(15, "<html><head><title>Error 501</ti"..., 43) = -1 EBADF (Bad file descriptor)
+31142 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31141 write(1, "No se encontro un salto de linea"..., 46) = 46
+31141 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+31142 <... futex resumed> )             = 0
+31142 write(1, "Error al intentar escribir en so"..., 38) = 38
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 0
+31142 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = -1 EBADF (Bad file descriptor)
+31141 <... futex resumed> )             = 1
+31141 futex(0x7fbde2e1cad0, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+31142 write(1, "Error al intentar escribir en so"..., 38) = 38
+31142 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 1
+31142 write(1, "Socket: 15\n", 11)      = 11
+31142 close(15)                         = -1 EBADF (Bad file descriptor)
+31142 madvise(0x7fbde0a5e000, 8368128, MADV_DONTNEED) = 0
+31142 _exit(0)                          = ?
+31141 <... futex resumed> )             = 0
+31141 write(1, "Metodo: NA\n", 11)      = 11
+31141 futex(0x7fbde2e1cad0, FUTEX_WAKE_PRIVATE, 1) = 0
+31141 write(1, "File: NA\n", 9)         = 9
+31141 write(1, "Mime/Type: NA\n", 14)   = 14
+31141 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31141 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = -1 EBADF (Bad file descriptor)
+31141 write(1, "Error al intentar escribir en so"..., 38) = 38
+31141 write(15, "Content-Type: text/html\r\n\r\n", 27) = -1 EBADF (Bad file descriptor)
+31141 write(1, "Error al intentar escribir en so"..., 38) = 38
+31141 write(15, "<html><head><title>Error 501</ti"..., 43) = -1 EBADF (Bad file descriptor)
+31141 write(1, "Error al intentar escribir en so"..., 38) = 38
+31141 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = -1 EBADF (Bad file descriptor)
+31141 write(1, "Error al intentar escribir en so"..., 38) = 38
+31141 write(1, "Socket: 15\n", 11)      = 11
+31141 close(15)                         = -1 EBADF (Bad file descriptor)
+31141 madvise(0x7fbde125f000, 8368128, MADV_DONTNEED) = 0
+31141 _exit(0)                          = ?
+31134 <... accept resumed> 0, NULL)     = ? ERESTARTSYS (To be restarted)
+31134 --- SIGWINCH (Window changed) @ 0 (0) ---
+31134 accept(4, 0, NULL)                = ? ERESTARTSYS (To be restarted)
+31134 --- SIGWINCH (Window changed) @ 0 (0) ---
+31134 accept(4,  <unfinished ...>
+31145 <... read resumed> "", 4096)      = 0
+31145 write(1, "Consulta del cliente:\n", 22) = 22
+31145 write(1, "\n", 1)                 = 1
+31145 write(1, "No se encontro un salto de linea"..., 46) = 46
+31145 write(1, "Metodo: NA\n", 11)      = 11
+31145 write(1, "File: NA\n", 9)         = 9
+31145 write(1, "Mime/Type: NA\n", 14)   = 14
+31145 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31145 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = -1 EBADF (Bad file descriptor)
+31145 write(1, "Error al intentar escribir en so"..., 38) = 38
+31145 write(15, "Content-Type: text/html\r\n\r\n", 27) = -1 EBADF (Bad file descriptor)
+31145 write(1, "Error al intentar escribir en so"..., 38) = 38
+31145 write(15, "<html><head><title>Error 501</ti"..., 43) = -1 EBADF (Bad file descriptor)
+31145 write(1, "Error al intentar escribir en so"..., 38) = 38
+31145 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = -1 EBADF (Bad file descriptor)
+31145 write(1, "Error al intentar escribir en so"..., 38) = 38
+31145 write(1, "Socket: 15\n", 11)      = 11
+31145 close(15)                         = -1 EBADF (Bad file descriptor)
+31145 madvise(0x7fbddf247000, 8368128, MADV_DONTNEED) = 0
+31145 _exit(0)                          = ?
+31144 <... read resumed> "", 4096)      = 0
+31144 write(1, "Consulta del cliente:\n", 22) = 22
+31144 write(1, "\n", 1)                 = 1
+31144 write(1, "No se encontro un salto de linea"..., 46) = 46
+31144 write(1, "Metodo: NA\n", 11)      = 11
+31144 write(1, "File: NA\n", 9)         = 9
+31144 write(1, "Mime/Type: NA\n", 14)   = 14
+31144 write(1, "Error 501 Metodo HTTP no impleme"..., 39) = 39
+31144 write(15, "HTTP/1.0 501 Not Implemented\r\n", 30) = -1 EBADF (Bad file descriptor)
+31144 write(1, "Error al intentar escribir en so"..., 38) = 38
+31144 write(15, "Content-Type: text/html\r\n\r\n", 27) = -1 EBADF (Bad file descriptor)
+31144 write(1, "Error al intentar escribir en so"..., 38) = 38
+31144 write(15, "<html><head><title>Error 501</ti"..., 43) = -1 EBADF (Bad file descriptor)
+31144 write(1, "Error al intentar escribir en so"..., 38) = 38
+31144 write(15, "<body><h1>Error 501</h1><p>Metod"..., 112) = -1 EBADF (Bad file descriptor)
+31144 write(1, "Error al intentar escribir en so"..., 38) = 38
+31144 write(1, "Socket: 15\n", 11)      = 11
+31144 close(15)                         = -1 EBADF (Bad file descriptor)
+31144 madvise(0x7fbddfa5c000, 8368128, MADV_DONTNEED) = 0
+31144 _exit(0)                          = ?
+31134 <... accept resumed> 0, NULL)     = ? ERESTARTSYS (To be restarted)
+31134 --- SIGINT (Interrupt) @ 0 (0) ---
+31148 +++ killed by SIGINT +++
+31143 +++ killed by SIGINT +++
