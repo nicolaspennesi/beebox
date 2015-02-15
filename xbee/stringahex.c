@@ -10,7 +10,7 @@ int stringahex ( char* texto, char* hexa )
    size_t i;
    for ( i = 0; i < sizeof hexa; ++i )
    {
-      if ( sscanf(ptr, "%2x", &byte) != 1 )
+      if ( sscanf(ptr, "%2x", &byte) != 1 ) //Buscar otra opción
       {
          break;
       }

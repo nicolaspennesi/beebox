@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-lxbee
+CFLAGS=-lxbee -pthread
 TARGETS=xbee
 
 all: $(TARGETS)
