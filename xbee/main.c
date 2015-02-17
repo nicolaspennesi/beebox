@@ -35,7 +35,7 @@ sem_t semaforo; //Declaramos la vaiable en la que estaá el semaforo
 //-- FUNCIONES
 //------------------
 
-void analizaRespuestaCoordinador(xbee_err res, unsigned char resval){
+void manejadorErroresCoordinador(xbee_err res, unsigned char resval){
 	if (res == XBEE_ETX) {
 		if (resval == 4) {
 			fprintf(stderr, "ERROR: NODO REMOTO NO ENCONTRADO\n");
@@ -102,7 +102,7 @@ void evaluaryCambiar(struct xbee *xbee, struct xbee_con *con, struct xbee_pkt **
 
 	//Evalúa si hubo algún error al enviar el comando
 	if (err != XBEE_ENONE) {
-		analizaRespuestaCoordinador(err, txErr);
+		manejadorErroresCoordinador(err, txErr);
 	} else{
 		printf("COMANDO ENVIADO\n");
 	}
@@ -113,11 +113,15 @@ int main(int argc, char *const argv[]){
 
 	int opcion; //Para el manejo de argumentos
 
-	char *archconfig = "default.cfg"; //Puntero al nombre del archivo de configuración. Por defecto es default.cfg
+	char *archconfig = "/home/nicolas/Escritorio/beebox/xbee/default.cfg"; //Puntero al nombre del archivo de configuración. Por defecto es default.cfg
+	int descarch; //Descriptor del archivo de configuracion
+	int leido;
+	char buffer[1024];
 
 	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
 	char comando = 'c'; //El comando por defecto es cambiar el estado del pin
 	char *pin = PIN1; //El pin por defecto es el pin 1
+
 	char *puertoserie;
 	char *baudiosstring;
 	int baudios;
@@ -125,10 +129,6 @@ int main(int argc, char *const argv[]){
 	sem_init(&semaforo,0, 0); //Inicializamos el semáforo. EL segundo argumento 0 indica que es un semaforo no compartido entre los procesos relacionados. El tercer argumento 0 indica el valor inicial
 	struct timespec ts;
 	int retsemaforo;
-
-	int descarch; //Descriptor del archivo de configuracion
-	int leido;
-	char buffer[1024];
 
 	void *d;
 	struct xbee *xbee;
@@ -265,7 +265,7 @@ int main(int argc, char *const argv[]){
 
 	//Evalúa si hubo algún error al enviar el comando
 	if (err != XBEE_ENONE) {
-		analizaRespuestaCoordinador(err, txErr);
+		manejadorErroresCoordinador(err, txErr);
 	} else{
 		printf("COMANDO ENVIADO\n");
 		//Queda esperando respuesta del nodo así tiene tiempo de entrar en la funcion callback
