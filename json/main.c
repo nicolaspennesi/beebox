@@ -21,10 +21,9 @@ int main(int argc, char *const argv[]){
 
 	char *jsonText; //json a parsear
 
-	json_t *jasonData, *remoto, *pin, *comando; //Variavles donde se guardará el json parseado
-	json_error_t error; //Variable donde se guardarán errores del parseadorn en caso de producirse
-
-	const char *remoto_valor, *pin_valor, *comando_valor;
+	json_t *jasonData, *remoto, *pin, *comando; //Variables donde se guardarán los objetos json parseados
+	json_error_t error; //Variable donde se guardarán errores del parseador en caso de producirse
+	const char *remoto_valor, *pin_valor, *comando_valor; //Variables donde se guardarán los valores de lo recibido por json
 
 	jsonText = TEXTO_JSON;
 
@@ -32,8 +31,8 @@ int main(int argc, char *const argv[]){
 
 	//Comprobamos que se haya parseado correctamente
 	if(!jasonData){
-	    fprintf(stderr, "ERROR AL PARSEAR JSON. LÍNEA %d: %s\n", error.line, error.text);
-	    return -1;
+		fprintf(stderr, "ERROR AL PARSEAR JSON. LÍNEA %d: %s\n", error.line, error.text);
+		return -1;
 	}
 
 	//Obtenemos los valores de la estructura json y los guardamos en las variables correspondientes
