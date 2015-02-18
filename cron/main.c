@@ -39,24 +39,12 @@ void escaparAsteriscos(char *texto){
 	strcpy(texto, textoNuevo);
 }
 
-void agregarTarea(){
+void agregarTarea(char *minuto, char *hora, char *diaDelMes, char *mes, char *diaDeLaSemana, char *remoteaddr, char *comando, char *pin){
 	int status;
-
-	char minuto[10] = "*"; //(0 - 59)
-	char hora[10] = "*"; //(0 - 23)
-	char diaDelMes[10] = "*";//(1 - 31)
-	char mes[10] = "*"; //(1 - 12)
-	char diaDeLaSemana[10] = "*"; //(0 - 6) (Domingo=0)
-
-	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
-	char *comando = "c"; //El comando por defecto es cambiar el estado del pin
-	char *pin = "1"; //El pin por defecto es el pin 1
 
 	char comandoSistema[500] = ""; //Comando a ejecutar por el sistema, 500 caracteres como máximo
 	char entradaCron[400] = ""; //Tarea que quedará escrita en el archivo de cron
 	char entradaCronEscapada[400] = ""; //Tarea de cron con caracteres escapados para poder utilizar el comanod grep -v
-
-	strcpy(minuto, "*/1");
 
 	strcat(entradaCron, minuto);
 	strcat(entradaCron, " ");
@@ -88,25 +76,17 @@ void agregarTarea(){
 	status = system(comandoSistema);
 	if(status != 0){
 		fprintf(stderr, "ERROR AL INTENTAR AGREGAR TAREA A CRON (%d)\n", status);
+		return;
 	}
+
+	printf("TAREA PROGRAMADA\n");
 }
 
-void quitarTarea(){
+void quitarTarea(char *minuto, char *hora, char *diaDelMes, char *mes, char *diaDeLaSemana, char *remoteaddr, char *comando, char *pin){
 	int status;
 
-	char minuto[10] = "*"; //(0 - 59)
-	char hora[10] = "*"; //(0 - 23)
-	char diaDelMes[10] = "*";//(1 - 31)
-	char mes[10] = "*"; //(1 - 12)
-	char diaDeLaSemana[10] = "*"; //(0 - 6) (Domingo=0)
 	char comandoSistema[500] = ""; //Comando a ejecutar por el sistema, 500 caracteres como máximo
 	char entradaCronEscapada[400] = ""; //Tarea de cron con caracteres escapados para poder utilizar el comanod grep -v
-
-	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
-	char *comando = "c"; //El comando por defecto es cambiar el estado del pin
-	char *pin = "1"; //El pin por defecto es el pin 1
-
-	strcpy(minuto, "*/1");
 
 	strcat(entradaCronEscapada, minuto);
 	strcat(entradaCronEscapada, " ");
@@ -136,14 +116,49 @@ void quitarTarea(){
 	status = system(comandoSistema);
 	if(status != 0){
 		fprintf(stderr, "ERROR AL INTENTAR QUITAR TAREA DE CRON (%d)\n", status);
+		return;
 	}
+	printf("TAREA ELIMINADA CORRECTAMENTE\n");
 }
 
+void listarTareas(){
+	FILE *fileDesc;
+	char linea[1024];
+
+	//Ejecutamos crontab -l para que nos devuelva la lista de comandos, esta lista se guarda en un "archivo" en memoria apuntado por fileDesc
+	fileDesc = popen("crontab -l", "r"); //La "r" es de solo lectura
+	if (fileDesc == NULL) {
+		fprintf(stderr, "ERROR NO SE PUDO OBTENER LA LISTA DE COMANDOS\n");
+		return;
+	}
+
+	//Leemos línea por linea el archivo en memoria y vamos mostrando la salida por pantalla hasta llegar al final del archivo
+	while (fgets(linea, sizeof(linea), fileDesc) != NULL) {
+	  printf("%s", linea);
+	}
+
+	//Cerramos el "archivo"
+	pclose(fileDesc);
+}
 
 int main(int argc, char *const argv[]){
 
-	agregarTarea();
-	//quitarTarea();
+	char minuto[10] = "*"; //(0 - 59)
+	char hora[10] = "*"; //(0 - 23)
+	char diaDelMes[10] = "*";//(1 - 31)
+	char mes[10] = "*"; //(1 - 12)
+	char diaDeLaSemana[10] = "*"; //(0 - 6) (Domingo=0)
+
+	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
+	char *comando = "c"; //El comando por defecto es cambiar el estado del pin
+	char *pin = "1"; //El pin por defecto es el pin 1
+
+	strcpy(minuto, "*/1"); //Seteo que se ejecute cada un minuto
+
+	agregarTarea(minuto, hora, diaDelMes, mes, diaDeLaSemana, remoteaddr, comando, pin);
+	//quitarTarea(minuto, hora, diaDelMes, mes, diaDeLaSemana, remoteaddr, comando, pin);
+	//listarTareas();
+
 	printf("FIN\n");
 	return 0;
 }

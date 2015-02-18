@@ -109,6 +109,95 @@ void evaluaryCambiar(struct xbee *xbee, struct xbee_con *con, struct xbee_pkt **
 
 }
 
+int ejecutarComando(struct xbee *xbee, char *remoteaddr, char comando, char *pin){
+
+	struct xbee_con *con; //Descriptor al tipo de conexión entre el xbee remoto y el coordinador
+	struct xbee_conAddress address; //Dirección del xbee remoto
+	unsigned char txErr; //Variable en donde se almacena un caracter en caso de errror
+	xbee_err err; //Variable para guardar errores
+
+	sem_init(&semaforo,0, 0); //Inicializamos el semáforo. EL segundo argumento 0 indica que es un semaforo no compartido entre los procesos relacionados. El tercer argumento 0 indica el valor inicial
+	struct timespec ts; //Variable para setear el timeout del semáforo
+	int retsemaforo; //Variable para guardar el resultado del semáforo (y ver si terminó bien o por timeout)
+
+	//Setea los datos del nodo remoto al que se le van a enviar las consultas
+	memset(&address, 0, sizeof(address));
+	address.addr64_enabled = 1;
+	stringahex(remoteaddr, address.addr64); //Convierte a hexadecimal la cadena que indica el id del nodo remoto
+
+	//Setea el tipo de conexión que tendrá el coordinador con el nodo remoto, (en este caso será un Comando AT Remoto) y lo almacena en la variable 'con'
+	if ((err = xbee_conNew(xbee, &con, "Remote AT", &address)) != XBEE_ENONE) {
+		xbee_log(xbee, -1, "xbee_conNew() returned: %d (%s)", err, xbee_errorToStr(err));
+		return err;
+	}
+
+	//Evalúa el comando
+	switch (comando){
+		case 'c': //En caso de que sea cambiar (de estado)
+			//Setea la función callback
+			if ((err = xbee_conCallbackSet(con, evaluaryCambiar, NULL)) != XBEE_ENONE) {
+				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
+				return err;
+			}
+			//Envía consulta al nodo remoto (pregunta por estado de del pin)
+			err = xbee_conTx(con, &txErr, pin);
+			printf("ENVIANDO COMANDO CAMBIAR ESTADO...\n");
+			break;
+		case 'e': //En caso de que sea encender
+			//Setea la función callback
+			if ((err = xbee_conCallbackSet(con, analizarRespuestaNodoRemoto, NULL)) != XBEE_ENONE) {
+				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
+				return err;
+			}
+			//Envía consulta al nodo remoto (pregunta por estado de del pin)
+			err = xbee_conTx(con, &txErr, "%s%c", pin, ALTO);
+			printf("ENVIANDO COMANDO ENCENDER...\n");
+			break;
+
+		case 'a': //En caso de que sea apagar
+			//Setea la función callback
+			if ((err = xbee_conCallbackSet(con, analizarRespuestaNodoRemoto, NULL)) != XBEE_ENONE) {
+				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
+				return err;
+			}
+			//Envía consulta al nodo remoto (pregunta por estado de del pin)
+			err = xbee_conTx(con, &txErr, "%s%c", pin, BAJO);
+			printf("ENVIANDO COMANDO APAGAR...\n");
+			break;
+	}
+
+	//Evalúa si hubo algún error al enviar el comando
+	if (err != XBEE_ENONE) {
+		manejadorErroresCoordinador(err, txErr);
+		return err;
+	} else{
+		printf("COMANDO ENVIADO\n");
+		//Queda esperando respuesta del nodo así tiene tiempo de entrar en la funcion callback
+		printf("BLOQUEO SEMÁFORO...\n");
+		//Seteo el timeout del semáforo a 5 segundos de la hora actual
+		clock_gettime(CLOCK_REALTIME, &ts);
+		ts.tv_sec += 5;
+		retsemaforo = sem_timedwait(&semaforo, &ts);//Resto 1 en el semaforo (y queda esperando a estar nuevamente en un valor positivo para seguir)
+
+		//Chequeo qué pasó con el semáforo en caso de error o timeout
+		if (retsemaforo == -1) {
+			if (errno == ETIMEDOUT)
+				printf("TIMEOUT DEL SEMAFORO CUMPLIDO...\n");
+			else
+				fprintf(stderr, "ERROR AL INICIAR SEMÁFORO\n");
+		}
+	}
+
+	//Cierra la conexión con el nodo remoto
+	if ((err = xbee_conEnd(con)) != XBEE_ENONE) {
+		xbee_log(xbee, -1, "xbee_conEnd() returned: %d", err);
+		return err;
+	}
+
+	return 0;
+
+}
+
 int main(int argc, char *const argv[]){
 
 	int opcion; //Para el manejo de argumentos
@@ -122,20 +211,12 @@ int main(int argc, char *const argv[]){
 	char comando = 'c'; //El comando por defecto es cambiar el estado del pin
 	char *pin = PIN1; //El pin por defecto es el pin 1
 
-	char *puertoserie;
-	char *baudiosstring;
+	char *puertoserie; //Puerto serie al que está conectado el xbee coordinador (se setea en el archivo de configuración)
+	char *baudiosstring; //Velocidad en baudios a los que se establecerá la conexión el xbee coordinador (se setea en el archivo de configuración)
 	int baudios;
 
-	sem_init(&semaforo,0, 0); //Inicializamos el semáforo. EL segundo argumento 0 indica que es un semaforo no compartido entre los procesos relacionados. El tercer argumento 0 indica el valor inicial
-	struct timespec ts;
-	int retsemaforo;
-
-	void *d;
-	struct xbee *xbee;
-	struct xbee_con *con;
-	struct xbee_conAddress address;
-	unsigned char txErr;
-	xbee_err err;
+	struct xbee *xbee; //Descriptor a xbee conectado al servidor
+	xbee_err err; //Variable para guardar errores
 
 	//Se analizan los argumentos
 	while ((opcion = getopt (argc, argv, "f:r:p:c:")) != -1){
@@ -216,81 +297,13 @@ int main(int argc, char *const argv[]){
 	}
 	printf ("Conexión establecida en %s a %d baudios.\n", puertoserie, baudios);
 
-
-	//Setea los datos del nodo remoto al que se le van a enviar las consultas
-	memset(&address, 0, sizeof(address));
-	address.addr64_enabled = 1;
-	stringahex(remoteaddr, address.addr64); //Convierte a hexadecimal la cadena que indica el id del nodo remoto
-
-	//Setea el tipo de conexión que tendrá el coordinador con el nodo remoto, (en este caso será un Comando AT Remoto) y lo almacena en la variable 'con'
-	if ((err = xbee_conNew(xbee, &con, "Remote AT", &address)) != XBEE_ENONE) {
-		xbee_log(xbee, -1, "xbee_conNew() returned: %d (%s)", err, xbee_errorToStr(err));
-		return err;
+	//Ejecutamos el comando (Esto lo va a hacer un hijo al recibir una conexión)
+	if(ejecutarComando(xbee, remoteaddr, comando, pin) != 0){
+		fprintf(stderr, "ERROR AL INTENTAR EJECUTAR COMANDO\n");
+		return -1;
 	}
 
-	//Evalúa el comando
-	switch (comando){
-		case 'c': //En caso de que sea cambiar (de estado)
-			//Setea la función callback
-			if ((err = xbee_conCallbackSet(con, evaluaryCambiar, NULL)) != XBEE_ENONE) {
-				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
-				return err;
-			}
-			//Envía consulta al nodo remoto (pregunta por estado de del pin)
-			err = xbee_conTx(con, &txErr, pin);
-			printf("ENVIANDO COMANDO CAMBIAR ESTADO...\n");
-			break;
-		case 'e': //En caso de que sea encender
-			//Setea la función callback
-			if ((err = xbee_conCallbackSet(con, analizarRespuestaNodoRemoto, NULL)) != XBEE_ENONE) {
-				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
-				return err;
-			}
-			//Envía consulta al nodo remoto (pregunta por estado de del pin)
-			err = xbee_conTx(con, &txErr, "%s%c", pin, ALTO);
-			printf("ENVIANDO COMANDO ENCENDER...\n");
-			break;
-
-		case 'a': //En caso de que sea apagar
-			//Setea la función callback
-			if ((err = xbee_conCallbackSet(con, analizarRespuestaNodoRemoto, NULL)) != XBEE_ENONE) {
-				xbee_log(xbee, -1, "xbee_conCallbackSet() returned: %d", err);
-				return err;
-			}
-			//Envía consulta al nodo remoto (pregunta por estado de del pin)
-			err = xbee_conTx(con, &txErr, "%s%c", pin, BAJO);
-			printf("ENVIANDO COMANDO APAGAR...\n");
-			break;
-	}
-
-	//Evalúa si hubo algún error al enviar el comando
-	if (err != XBEE_ENONE) {
-		manejadorErroresCoordinador(err, txErr);
-	} else{
-		printf("COMANDO ENVIADO\n");
-		//Queda esperando respuesta del nodo así tiene tiempo de entrar en la funcion callback
-		printf("BLOQUEO SEMÁFORO...\n");
-		//Seteo el timeout del semáforo a 5 segundos de la hora actual
-		clock_gettime(CLOCK_REALTIME, &ts);
-		ts.tv_sec += 5;
-		retsemaforo = sem_timedwait(&semaforo, &ts);//Resto 1 en el semaforo (y queda esperando a estar nuevamente en un valor positivo para seguir)
-
-		//Chequeo qué pasó con el semáforo en caso de error o timeout
-		if (retsemaforo == -1) {
-			if (errno == ETIMEDOUT)
-				printf("TIMEOUT DEL SEMAFORO CUMPLIDO...\n");
-			else
-				fprintf(stderr, "ERROR AL INICIAR SEMÁFORO\n");
-		}
-	}
-
-	printf("FIN MAIN\n");
-
-	//Cierra la conexión con el nodo remoto
-	if ((err = xbee_conEnd(con)) != XBEE_ENONE) {
-		xbee_log(xbee, -1, "xbee_conEnd() returned: %d", err);
-		return err;
-	}
+	printf("FIN MAIN OK\n");
 
 	//Cierra conexión por puerto serie con el coordinador
 	xbee_shutdown(xbee);
