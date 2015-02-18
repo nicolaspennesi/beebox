@@ -17,7 +17,7 @@
 //------------------
 
 void escaparAsteriscos(char *texto){
-	char textoNuevo[10] = "";
+	char textoNuevo[400] = "";
 	int i = 0;
 	int j = 0;
 
@@ -33,7 +33,8 @@ void escaparAsteriscos(char *texto){
 		i++;
 		j++;
 	}
-
+	//Cerramos el string nuevo
+	textoNuevo[j] = '\0';
 	//copia el resultado de la nueva cadena a la vieja (con los asteriscos escapados)
 	strcpy(texto, textoNuevo);
 }
@@ -46,32 +47,42 @@ void agregarTarea(){
 	char diaDelMes[10] = "*";//(1 - 31)
 	char mes[10] = "*"; //(1 - 12)
 	char diaDeLaSemana[10] = "*"; //(0 - 6) (Domingo=0)
-	char comandoSistema[500] = ""; //Comando a ejecutar por el sistema, 500 caracteres como máximo
 
 	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
 	char *comando = "c"; //El comando por defecto es cambiar el estado del pin
 	char *pin = "1"; //El pin por defecto es el pin 1
 
+	char comandoSistema[500] = ""; //Comando a ejecutar por el sistema, 500 caracteres como máximo
+	char entradaCron[400] = ""; //Tarea que quedará escrita en el archivo de cron
+	char entradaCronEscapada[400] = ""; //Tarea de cron con caracteres escapados para poder utilizar el comanod grep -v
+
 	strcpy(minuto, "*/1");
 
-	strcat(comandoSistema, "(crontab -l && echo \"");
-	strcat(comandoSistema, minuto);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, hora);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, diaDelMes);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, mes);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, diaDeLaSemana);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, RUTA_EJECUTABLE);
-	strcat(comandoSistema, " -r ");
-	strcat(comandoSistema, remoteaddr);
-	strcat(comandoSistema, " -p ");
-	strcat(comandoSistema, pin);
-	strcat(comandoSistema, " -c ");
-	strcat(comandoSistema, comando);
+	strcat(entradaCron, minuto);
+	strcat(entradaCron, " ");
+	strcat(entradaCron, hora);
+	strcat(entradaCron, " ");
+	strcat(entradaCron, diaDelMes);
+	strcat(entradaCron, " ");
+	strcat(entradaCron, mes);
+	strcat(entradaCron, " ");
+	strcat(entradaCron, diaDeLaSemana);
+	strcat(entradaCron, " ");
+	strcat(entradaCron, RUTA_EJECUTABLE);
+	strcat(entradaCron, " -r ");
+	strcat(entradaCron, remoteaddr);
+	strcat(entradaCron, " -p ");
+	strcat(entradaCron, pin);
+	strcat(entradaCron, " -c ");
+	strcat(entradaCron, comando);
+
+	strcpy(entradaCronEscapada, entradaCron);
+	escaparAsteriscos(entradaCronEscapada);
+
+	strcat(comandoSistema, "(crontab -l | grep -v \""); //coneste grep evitamos que el comando se repita si ya está cargado en el archivo de cron
+	strcat(comandoSistema, entradaCronEscapada);
+	strcat(comandoSistema, "\" && echo \"");
+	strcat(comandoSistema, entradaCron);
 	strcat(comandoSistema, "\") | crontab -");
 
 	status = system(comandoSistema);
@@ -89,6 +100,7 @@ void quitarTarea(){
 	char mes[10] = "*"; //(1 - 12)
 	char diaDeLaSemana[10] = "*"; //(0 - 6) (Domingo=0)
 	char comandoSistema[500] = ""; //Comando a ejecutar por el sistema, 500 caracteres como máximo
+	char entradaCronEscapada[400] = ""; //Tarea de cron con caracteres escapados para poder utilizar el comanod grep -v
 
 	char *remoteaddr = "0013A2004086A3FF"; //Setea la dirección por del nodo remoto
 	char *comando = "c"; //El comando por defecto es cambiar el estado del pin
@@ -96,30 +108,29 @@ void quitarTarea(){
 
 	strcpy(minuto, "*/1");
 
+	strcat(entradaCronEscapada, minuto);
+	strcat(entradaCronEscapada, " ");
+	strcat(entradaCronEscapada, hora);
+	strcat(entradaCronEscapada, " ");
+	strcat(entradaCronEscapada, diaDelMes);
+	strcat(entradaCronEscapada, " ");
+	strcat(entradaCronEscapada, mes);
+	strcat(entradaCronEscapada, " ");
+	strcat(entradaCronEscapada, diaDeLaSemana);
+	strcat(entradaCronEscapada, " ");
+	strcat(entradaCronEscapada, RUTA_EJECUTABLE);
+	strcat(entradaCronEscapada, " -r ");
+	strcat(entradaCronEscapada, remoteaddr);
+	strcat(entradaCronEscapada, " -p ");
+	strcat(entradaCronEscapada, pin);
+	strcat(entradaCronEscapada, " -c ");
+	strcat(entradaCronEscapada, comando);
+
+	escaparAsteriscos(entradaCronEscapada);
+
 	//TODO Para que funcione bien el grep -V hay que escapar los asteriscos con \*
 	strcat(comandoSistema, "(crontab -l | grep -v \"");
-	escaparAsteriscos(minuto);
-	strcat(comandoSistema, minuto);
-	strcat(comandoSistema, " ");
-	escaparAsteriscos(hora);
-	strcat(comandoSistema, hora);
-	strcat(comandoSistema, " ");
-	escaparAsteriscos(diaDelMes);
-	strcat(comandoSistema, diaDelMes);
-	strcat(comandoSistema, " ");
-	escaparAsteriscos(mes);
-	strcat(comandoSistema, mes);
-	strcat(comandoSistema, " ");
-	escaparAsteriscos(diaDeLaSemana);
-	strcat(comandoSistema, diaDeLaSemana);
-	strcat(comandoSistema, " ");
-	strcat(comandoSistema, RUTA_EJECUTABLE);
-	strcat(comandoSistema, " -r ");
-	strcat(comandoSistema, remoteaddr);
-	strcat(comandoSistema, " -p ");
-	strcat(comandoSistema, pin);
-	strcat(comandoSistema, " -c ");
-	strcat(comandoSistema, comando);
+	strcat(comandoSistema, entradaCronEscapada);
 	strcat(comandoSistema, "\") | crontab -");
 
 	status = system(comandoSistema);
@@ -132,7 +143,7 @@ void quitarTarea(){
 int main(int argc, char *const argv[]){
 
 	agregarTarea();
-	quitarTarea();
+	//quitarTarea();
 	printf("FIN\n");
 	return 0;
 }

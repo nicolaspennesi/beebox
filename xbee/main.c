@@ -280,7 +280,7 @@ int main(int argc, char *const argv[]){
 			if (errno == ETIMEDOUT)
 				printf("TIMEOUT DEL SEMAFORO CUMPLIDO...\n");
 			else
-				fprintf(stderr, "ERROR AL INICIAR SEMÁFORO");
+				fprintf(stderr, "ERROR AL INICIAR SEMÁFORO\n");
 		}
 	}
 
