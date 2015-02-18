@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>//Para el open
-#include <errno.h> //Para perror
+#include <errno.h> //Para mostrar errores
 #include <unistd.h> //Para opciones (argumentos) y otras cosas
 #include <pthread.h>// Para hilos
 #include <semaphore.h> //Para los semáforos

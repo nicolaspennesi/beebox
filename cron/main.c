@@ -10,7 +10,7 @@
 //-- CONSTANTES
 //------------------
 
-#define RUTA_EJECUTABLE "/home/nicolas/Escritorio/beebox/xbee/xbee" //Indica la ruta al archivo que ejecutará la tarea de cron
+#define RUTA_EJECUTABLE "/home/nicolas/Escritorio/beebox/colaescribir/beeboxmqsend" //Indica la ruta al archivo que ejecutará la tarea de cron
 
 //------------------
 //-- FUNCIONES
