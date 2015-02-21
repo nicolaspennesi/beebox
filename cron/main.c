@@ -113,7 +113,7 @@ void quitarTarea(char *minuto, char *hora, char *diaDelMes, char *mes, char *dia
 	strcat(comandoSistema, entradaCronEscapada);
 	strcat(comandoSistema, "\") | crontab -");
 
-	status = system(comandoSistema);
+	status = system(comandoSistema); //cambiar por fork y excec
 	if(status != 0){
 		fprintf(stderr, "ERROR AL INTENTAR QUITAR TAREA DE CRON (%d)\n", status);
 		return;

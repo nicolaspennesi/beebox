@@ -1,0 +1,22 @@
+/comando.json
+{
+	"remoto": "0013A2004086A3FF",
+	"pin": "1",
+	"comando": "c",
+}
+/tarea.json
+{
+	"minuto": "*",					//(0 - 59)
+	"hora": "*",					//(0 - 23)
+	"diaDelMes": "*",				//(1 - 31)
+	"mes": "*",						//(1 - 12)
+	"diaDeLaSemana": "*",			//(0 - 6) (Domingo=0)
+	"remoto": "0013A2004086A3FF",
+	"pin": "1",
+	"comando": "c",
+}
+
+"{\"remoto\": \"0013A2004086A3FF\",\"pin\": \"1\",\"comando\": \"c\",}"
+
+/comando.json (POST)
+comando_xbee : {"remoto":"0013A2004086A3FF","pin":"1","comando":"c"}
