@@ -1,3 +1,7 @@
+//------------------
+//-- LIBRERIAS
+//------------------
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -12,6 +16,17 @@
 #include "mime.h" //Funciones propias para definir mimetype
 #include "utilidades.h" //Funciones propias
 #include "xbee.h" //Funciones propias
+#include "cron.h" //Funciones propias
+
+//------------------
+//-- CONSTANTES
+//------------------
+
+#define RUTA_EJECUTABLE_BEEBOX_MQ_SEND "/home/nicolas/Escritorio/beebox/colaescribir/beeboxmqsend" //Indica la ruta al archivo que ejecutará la tarea de cron
+
+//------------------
+//-- FUNCIONES
+//------------------
 
 //Devuelve la extensión del nombre de un archivo
 char *get_filename_ext(char *filename) {
@@ -23,13 +38,13 @@ char *get_filename_ext(char *filename) {
 }
 
 //Pasea la petición HTTP y completa la estructura http_t con lo parseado
-int http_parse_req(char *buffer, int leido, http_t* http)
-{
+int http_parse_req(char *buffer, int leido, http_t* http){
 	char *linea = NULL; //Contendrá la primera linea de lo que escriba el cliente en el socket
 	char *parse;
 	char archivo[256];
 	char bufferoriginal[4096];//Para copiar el contenido del buffer y mantener el original. Tiene el mismo tamaño que el bufer original
 
+	memset(bufferoriginal, 0, sizeof bufferoriginal); //Llena la variable bufferoriginal con 0
 	strcpy(bufferoriginal, buffer);//Copia el contenido del buffer a bufferoriginal para analizarlo luego ya que strtok destruye el contenido original del buffer
 
 
@@ -63,8 +78,20 @@ int http_parse_req(char *buffer, int leido, http_t* http)
 		if(strcmp(http->metodo, "POST") == 0){//Si el metodo es POST
 			if ( strcmp(http->file, "/comando.json") == 0 ){ //Y la petición es un comando
 				parse = strstr(bufferoriginal,"comando_xbee");//Busca en la petición si existe "comando_xbee" y devuelve un puntero a la posicion donde comienza
-				if(linea == NULL){
+				if(parse == NULL){
 					printf("No se encontro un la variable \"comando_xbee\" en los datos POST.\n");
+					strcpy(http->data,"error");
+					return -1;
+				}
+				parse = strchr(parse,'=')+1;//Devuelve un puntero al espacio siguiente del primer "=" que encuentre (que es el texto json a analizar)
+				urldecode(http->data, parse);//Desde el cliente los datos json se envían codeados en html (un "{" se manda como "%7B"), con esta función los datos se guardan decodificados
+			}else if ( strcmp(http->file, "/tarea.json") == 0 ){ //Y la petición es uns tarea
+				printf("BUSCANDO\n");
+				parse = strstr(bufferoriginal,"tarea_xbee");//Busca en la petición si existe "tarea_xbee" y devuelve un puntero a la posicion donde comienza
+				printf("FIN BUSCANDO\n");
+				if(parse == NULL){
+					printf("No se encontro un la variable \"tarea_xbee\" en los datos POST.\n");
+					strcpy(http->data,"error");
 					return -1;
 				}
 				parse = strchr(parse,'=')+1;//Devuelve un puntero al espacio siguiente del primer "=" que encuentre (que es el texto json a analizar)
@@ -80,10 +107,10 @@ int http_parse_req(char *buffer, int leido, http_t* http)
 //Escribe una respuesta en el socket en base al contenido de la estructura http_t
 int http_send_resp(int sd, http_t *http, char *dirraiz, struct xbee *xbee) {
 
-	json_t *jasonData, *remotoData, *pinData, *comandoData; //Variables donde se guardarán los objetos json parseados
+	json_t *jasonData, *remotoData, *pinData, *comandoData, *accionData, *minutoData, *horaData, *diaDelMesData, *mesData, *diaDeLaSemanaData; //Variables donde se guardarán los objetos json parseados
 	json_error_t error; //Variable donde se guardarán errores del parseador en caso de producirse
-	const char *remoto_valor, *pin_valor, *comando_valor; //Variables donde se guardarán los valores de lo recibido por json
-	char remoto[50], pin[50], comando[50];
+	const char *remoto_valor, *pin_valor, *comando_valor, *accion_valor, *minuto_valor, *hora_valor, *diaDelMes_valor, *mes_valor, *diaDeLaSemana_valor; //Variables donde se guardarán los valores de lo recibido por json
+	char remoto[20], pin[5], comando[10], accion[10], minuto[5], hora[5], diaDelMes[5], mes[5], diaDeLaSemana[5]; //Para evitar problema con tipo de variable "const"
 	int hayerror = 0;
 
 	printf("Metodo: %s\n",http->metodo);
@@ -115,6 +142,12 @@ int http_send_resp(int sd, http_t *http, char *dirraiz, struct xbee *xbee) {
 
 	if ( strcmp(http->metodo, "POST") == 0 ){ //Si el metodo es POST
 		printf("Respondiendo POST.\n");
+		if ( strcmp(http->data, "error") == 0 ){ //Si no se encontraron los argumentos correctos (comando_xbee o tarea_xbee)
+			escribirensocket(sd,"HTTP/1.0 200\r\n");
+			escribirensocket(sd,"Content-Type: application/json\r\n\r\n");
+			escribirensocket(sd,"Argumentos POST incorrectos.\r\n");
+			return 0;
+		}
 		if ( strcmp(http->file, "/comando.json") == 0 ){ //Y la petición es un comando
 			jasonData = json_loads(http->data, 0, &error);
 			//Comprobamos que se haya parseado correctamente
@@ -136,19 +169,79 @@ int http_send_resp(int sd, http_t *http, char *dirraiz, struct xbee *xbee) {
 			//Ejecutamos el comando
 			printf("EJECUTANDO COMANDO: Remoto: %s, Pin: %s, Comando: %s\n", remoto, pin, comando);
 			if(ejecutarComando(xbee, remoto, pin, *comando) != 0){
-				fprintf(stderr, "ERROR AL INTENTAR EJECUTAR COMANDO\n");
 				hayerror = 1;
 			}
 
+		}else if( strcmp(http->file, "/tarea.json") == 0 ){ //Si la petición es una tarea
+			jasonData = json_loads(http->data, 0, &error);
+			//Comprobamos que se haya parseado correctamente
+			if(!jasonData){
+				fprintf(stderr, "ERROR AL PARSEAR JSON. LÍNEA %d: %s\n", error.line, error.text);
+				return -1;
+			}
+			//Obtenemos los valores de la estructura json y los guardamos en las variables correspondientes
+			accionData = json_object_get(jasonData, "accion");
+			accion_valor = json_string_value(accionData);
+			strcpy(accion, accion_valor);
+			minutoData = json_object_get(jasonData, "minuto");
+			minuto_valor = json_string_value(minutoData);
+			strcpy(minuto, minuto_valor);
+			horaData = json_object_get(jasonData, "hora");
+			hora_valor = json_string_value(horaData);
+			strcpy(hora, hora_valor);
+			diaDelMesData = json_object_get(jasonData, "diaDelMes");
+			diaDelMes_valor = json_string_value(diaDelMesData);
+			strcpy(diaDelMes, diaDelMes_valor);
+			mesData = json_object_get(jasonData, "mes");
+			mes_valor = json_string_value(mesData);
+			strcpy(mes, mes_valor);
+			diaDeLaSemanaData = json_object_get(jasonData, "diaDeLaSemana");
+			diaDeLaSemana_valor = json_string_value(diaDeLaSemanaData);
+			strcpy(diaDeLaSemana, diaDeLaSemana_valor);
+			remotoData = json_object_get(jasonData, "remoto");
+			remoto_valor = json_string_value(remotoData);
+			strcpy(remoto, remoto_valor);
+			pinData = json_object_get(jasonData, "pin");
+			pin_valor = json_string_value(pinData);
+			strcpy(pin, pin_valor);
+			comandoData = json_object_get(jasonData, "comando");
+			comando_valor = json_string_value(comandoData);
+			strcpy(comando, comando_valor);
 
+			//Ejecutamos el comando
+			printf("TAREA: Minuto: %s, Hora: %s, Día del Mes: %s, Mes: %s, Día de la Semana: %s, Remoto: %s, Pin: %s, Comando: %s\n", minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, pin, comando);
+			//Evaliamos si hay que agregar o quitar
+			switch (*accion){ //evalúa el primer caracter del argumento de accion
+				case 'a':
+					if (agregarTareaCron(RUTA_EJECUTABLE_BEEBOX_MQ_SEND, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
+						hayerror = 1;
+					}
+					break;
+				case 'q':
+					if (quitarTareaCron(RUTA_EJECUTABLE_BEEBOX_MQ_SEND, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
+						hayerror = 1;
+					}
+					break;
+				default:
+					escribirensocket(sd,"HTTP/1.0 200\r\n");
+					escribirensocket(sd,"Content-Type: application/json\r\n\r\n");
+					escribirensocket(sd,"{\"error\":\"Accion incorrecta. [a=agregar | q=quitar]\"}");
+					return 0;
+			}
+
+		}else{
+			escribirensocket(sd,"HTTP/1.0 200\r\n");
+			escribirensocket(sd,"Content-Type: application/json\r\n\r\n");
+			escribirensocket(sd,"{\"error\":\"Petición POST a destino incorrecto. [/comando.json | /tarea.json]\"}");
+			return 0;
 		}
 
 		escribirensocket(sd,"HTTP/1.0 200\r\n");
 		escribirensocket(sd,"Content-Type: application/json\r\n\r\n");
 		if(hayerror){
-			escribirensocket(sd,"BAD\r\n");
+			escribirensocket(sd,"{\"content\":\"BAD\"}");
 		}else{
-			escribirensocket(sd,"OK\r\n");
+			escribirensocket(sd,"{\"content\":\"OK\"}");
 		}
 		return 0;
 	}

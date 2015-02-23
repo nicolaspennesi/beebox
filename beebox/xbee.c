@@ -30,6 +30,8 @@
 //------------------
 
 sem_t semaforo_xbee; //Declaramos la vaiable en la que estaá el semaforo
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; //Inicializo una variable mutex en una sola linea
+
 
 //------------------
 //-- FUNCIONES
@@ -41,6 +43,9 @@ int manejarError(struct xbee_con *con, int error){
 		fprintf(stderr, "xbee_conEnd() returned: %d\n", err);
 		return err;
 	}
+	//Desbloquea el mutex
+	printf("LIBERO MUTEX\n");
+	pthread_mutex_unlock (&mutex);
 	return error;
 }
 
@@ -136,6 +141,10 @@ int ejecutarComando(struct xbee *xbee, char *remoteaddr, char *pinstring, char c
 	address.addr64_enabled = 1;
 	stringahex(remoteaddr, address.addr64); //Convierte a hexadecimal la cadena que indica el id del nodo remoto
 
+	//Bloquea el mutex
+	printf("BLOQUEO MUTEX\n");
+	pthread_mutex_lock (&mutex);
+
 	//Setea el tipo de conexión que tendrá el coordinador con el nodo remoto, (en este caso será un Comando AT Remoto) y lo almacena en la variable 'con'
 	if ((err = xbee_conNew(xbee, &con, "Remote AT", &address)) != XBEE_ENONE) {
 		xbee_log(xbee, -1, "xbee_conNew() returned: %d (%s)", err, xbee_errorToStr(err));
@@ -227,6 +236,9 @@ int ejecutarComando(struct xbee *xbee, char *remoteaddr, char *pinstring, char c
 		xbee_log(xbee, -1, "xbee_conEnd() returned: %d", err);
 		return err;
 	}
+	//Desbloquea el mutex
+	printf("LIBERO MUTEX\n");
+	pthread_mutex_unlock (&mutex);
 
 	return 0;
 

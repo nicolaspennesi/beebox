@@ -12,6 +12,8 @@
 #include <errno.h> //Para perror
 #include <pthread.h> //Para Hilos
 #include <string.h> //Para memset
+#include <mqueue.h> //Para la cola de mensajes
+#include <jansson.h> //Para parsear json
 #include <xbee.h> // Librería para manejo interno de Xbees
 
 #include "utilidades.h" //Funciones propias
@@ -30,14 +32,13 @@ typedef struct {
 	char *dirraiz;//Directorio raiz
 } arg_struct;
 
-
-
 //------------------
 //-- FUNCIONES
 //------------------
 
 //Declaro funcion antes del main
 void* atenderconexion (void*);
+void* escucharCola (void*);
 
 int main(int argc, char *const argv[]){
 
@@ -75,10 +76,10 @@ int main(int argc, char *const argv[]){
 		switch (opcion){
 			case 'f':
 				archconfig = optarg; //Si se especifica un archivo de configuracion con el argumento -f se modifica la variable archconfig apuntando al nuevo archivo de configuracion
-					break;
+				break;
 			case '6':
 				ipv6 = 1; //Si se especifica el argumento -6 se modifica la variable ipv6 a 1 (el server será ipv6)
-					break;
+				break;
 			case '?':
 				printf ("Argumentos Incorrectos");
 				return 1;
@@ -180,16 +181,22 @@ int main(int argc, char *const argv[]){
 
 	printf("Aceptando peticiones...\n");
 
+	//Armo estructura con los argumentos que quiero pasarle al hilo
+	argumentos.xbee = xbee;
+	argumentos.dirraiz = dirraiz;
+	argumentos.sd = -1;
+
+	printf("\nLANZADO HILO PARA ESCUCHAR COLA\n");
+	if ( (pthread_create(&idhilo, NULL, escucharCola, (void*)&argumentos)) != 0 ) {
+		perror("Hilo No Creado");
+	}
+
 
 	//Dejamos el programa en un bucle infinito aceptando conecciones
 	while( (newdescsocket = accept( descsocket,NULL, 0)) > 0 ){ //Mientras no haya problemas al aceptar una conexión
 
-		//pthread_mutex_lock (&mutex); //Bloquea el mutex
-
-		//Armo estructura con los argumentos que quiero pasarle al hilo
+		//Agrego a la estructura el nuevo descriptor de socket
 		argumentos.sd = newdescsocket;
-		argumentos.xbee = xbee;
-		argumentos.dirraiz = dirraiz;
 
 		printf("\nCliente conectado!\n");
 		if ( (pthread_create(&idhilo, NULL, atenderconexion, (void*)&argumentos)) != 0 ) {
@@ -296,6 +303,56 @@ void *atenderconexion(void* argumentos){
 
 	//free(arg);
 	pthread_exit(NULL);
+}
+
+void* escucharCola (void* argumentos){
+
+	arg_struct *args = (arg_struct*)argumentos;//Recupero el puntero a la estructura con los argumentos
+
+	mqd_t descCola; //mqd_t es un tipo de variable parecido a un int
+	struct mq_attr atributosCola; //declaro la estructura para contener los atributos de lacolade mensajes
+
+	json_t *jasonData, *remotoData, *pinData, *comandoData; //Variables donde se guardará el json parseado
+	json_error_t error; //Variable donde se guardarán errores del parseadorn en caso de producirse
+	const char *remoto_valor, *pin_valor, *comando_valor; //Variables donde se guardarán los valores de lo recibido por jsony
+	char remoto[20], pin[5], comando[10]; //Para evitar problema con tipo de variable "const"
+
+	if ((descCola = mq_open("/beeboxmq",O_RDONLY|O_CREAT,0666,NULL)) < 0){ //Abre la cola y si no existe la crea. Si al abrir/crear la cola se produce un error mq_open va a devolver -1.
+		fprintf(stderr, "ERROR AL ABRIR COLA DE MENSAJES\n");
+		pthread_exit((void*)0);
+	}
+
+	mq_getattr (descCola, &atributosCola); //atributos es una estructura donde se van a guardar los atributos de la cola de mensajes
+
+	char bufferCola[atributosCola.mq_msgsize]; //declaro el buffer del tamaño máximo posible para un mensaje (normalmente 8k)
+
+	//si no hay mensajes en la cola, el programa se va a quedar esperando a que aparezca un mensaje en la cola
+	while(1){ //Bucle infinito leyendo mensajes
+		if (mq_receive (descCola, bufferCola, sizeof bufferCola, NULL) < 0 ){ //se lee un mensaje de la cola, el tercer argumento es la prioridad, en este caso es NULL, lee de mayor a menor.
+			fprintf(stderr, "ERROR AL INTENTAR LEER DE LA COLA DE MENSAJES\n");
+			pthread_exit((void*)0);
+		}
+		printf("MENSAJE RECIBIDO, PARSENADO JSON...\n");
+		jasonData = json_loads(bufferCola, 0, &error);
+		//Comprobamos que se haya parseado correctamente
+		if(!jasonData){
+			fprintf(stderr, "ERROR AL PARSEAR JSON. LÍNEA %d: %s\n", error.line, error.text);
+			pthread_exit((void*)0);
+		}
+		//Obtenemos los valores de la estructura json y los guardamos en las variables correspondientes
+		remotoData = json_object_get(jasonData, "remoto");
+		remoto_valor = json_string_value(remotoData);
+		strcpy(remoto, remoto_valor);
+		pinData = json_object_get(jasonData, "pin");
+		pin_valor = json_string_value(pinData);
+		strcpy(pin, pin_valor);
+		comandoData = json_object_get(jasonData, "comando");
+		comando_valor = json_string_value(comandoData);
+		strcpy(comando, comando_valor);
+
+		printf("Mensaje Entró a la Cola: Remoto: %s, Pin: %s, Comando: %s\n", remoto, pin, comando);
+		ejecutarComando(args->xbee, remoto, pin, *comando);
+	}
 }
 
 
