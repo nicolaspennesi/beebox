@@ -27,7 +27,7 @@
 
 //Estructura para mandar argumentos a los hilos nuevos
 typedef struct {
-	int sd;//Descriptor de socket
+	int *ptrsd;//Puntero para hacer malloc. (Descriptor de socket)
 	struct xbee *xbee; //Descriptor a xbee conectado al servidor
 	char *dirraiz;//Directorio raiz
 } arg_struct;
@@ -189,7 +189,7 @@ int main(int argc, char *const argv[]){
 	//Armo estructura con los argumentos que quiero pasarle al hilo
 	argumentos.xbee = xbee;
 	argumentos.dirraiz = dirraiz;
-	argumentos.sd = -1;
+	argumentos.ptrsd = NULL;
 
 	printf("\nLANZADO HILO PARA ESCUCHAR COLA\n");
 	if ( (pthread_create(&idhilo, NULL, escucharCola, (void*)&argumentos)) != 0 ) {
@@ -201,7 +201,11 @@ int main(int argc, char *const argv[]){
 	while( (newdescsocket = accept( descsocket,NULL, 0)) > 0 ){ //Mientras no haya problemas al aceptar una conexión
 
 		//Agrego a la estructura el nuevo descriptor de socket
-		argumentos.sd = newdescsocket;
+		//CAMBIAR POR MALLOC
+		argumentos.ptrsd = malloc(sizeof(int));
+		*argumentos.ptrsd = newdescsocket;
+
+		//argumentos.sd = newdescsocket;
 
 		printf("\nCliente conectado!\n");
 		if ( (pthread_create(&idhilo, NULL, atenderconexion, (void*)&argumentos)) != 0 ) {
@@ -221,7 +225,7 @@ void *atenderconexion(void* argumentos){
 
 	arg_struct *args = (arg_struct*)argumentos;//Recupero el puntero a la estructura con los argumentos
 
-	int sd = args->sd;//Descriptor al nuevo socket para que el hilo responda
+	int sd = *args->ptrsd;//Descriptor al nuevo socket para que el hilo responda
 	char buffer[4096];
 	char peticion[4096];//Esta variable se usa para mostrar la peticón completa en el caso de que el cliente vaya escribiendo en el buffer de a partes
 	int leido = -1;
@@ -229,7 +233,7 @@ void *atenderconexion(void* argumentos){
 
 	http_t http = {"NA","NA","NA","NA"}; //Inicializo la estructura vacía.
 
-	pthread_detach(pthread_self());//Desasocia el hilo del hilo principal
+	pthread_detach(pthread_self());//Desasocia el hilo del hilo principal (si se cuelga el hilo, no se va a colgar el proceso principal)
 
 	printf("HILO ENTRO EN RUTINA\n");
 	printf("Socket: %d\n",sd);
@@ -327,8 +331,12 @@ void* escucharCola (void* argumentos){
 		pthread_exit((void*)0);
 	}
 
+	pthread_detach(pthread_self());//Desasocia el hilo del hilo principal (si se cuelga el hilo, no se va a colgar el proceso principal)
+
+
 	mq_getattr (descCola, &atributosCola); //atributos es una estructura donde se van a guardar los atributos de la cola de mensajes
 
+	//cambiar por malloc
 	char bufferCola[atributosCola.mq_msgsize]; //declaro el buffer del tamaño máximo posible para un mensaje (normalmente 8k)
 
 	//si no hay mensajes en la cola, el programa se va a quedar esperando a que aparezca un mensaje en la cola
@@ -358,6 +366,8 @@ void* escucharCola (void* argumentos){
 		printf("Mensaje Entró a la Cola: Remoto: %s, Pin: %s, Comando: %s\n", remoto, pin, comando);
 		ejecutarComando(args->xbee, remoto, pin, *comando);
 	}
+
+	pthread_exit(NULL);
 }
 
 
