@@ -22,7 +22,7 @@
 //-- CONSTANTES
 //------------------
 
-#define RUTA_EJECUTABLE_BEEBOX_MQ_SEND "/home/nicolas/Escritorio/beebox/colaescribir/beeboxmqsend" //Indica la ruta al archivo que ejecutará la tarea de cron
+extern char *dirbeeboxmqsend; //Ruta donde está el ejecutable que escribirá las tareas en la cola (para cron). Se obtiene del archivo main.c
 
 //------------------
 //-- FUNCIONES
@@ -213,12 +213,12 @@ int http_send_resp(int sd, http_t *http, char *dirraiz, struct xbee *xbee) {
 			//Evaliamos si hay que agregar o quitar
 			switch (*accion){ //evalúa el primer caracter del argumento de accion
 				case 'a':
-					if (agregarTareaCron(RUTA_EJECUTABLE_BEEBOX_MQ_SEND, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
+					if (agregarTareaCron(dirbeeboxmqsend, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
 						hayerror = 1;
 					}
 					break;
 				case 'q':
-					if (quitarTareaCron(RUTA_EJECUTABLE_BEEBOX_MQ_SEND, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
+					if (quitarTareaCron(dirbeeboxmqsend, minuto, hora, diaDelMes, mes, diaDeLaSemana, remoto, comando, pin) != 0){
 						hayerror = 1;
 					}
 					break;

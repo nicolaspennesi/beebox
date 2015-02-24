@@ -32,6 +32,7 @@ typedef struct {
 	char *dirraiz;//Directorio raiz
 } arg_struct;
 
+char *dirbeeboxmqsend; //Ruta donde está el ejecutable que escribirá las tareas en la cola (para cron) (se setea en el archivo de configuración)
 //------------------
 //-- FUNCIONES
 //------------------
@@ -105,7 +106,7 @@ int main(int argc, char *const argv[]){
 	puertostring = strtok (NULL, "\n");
 	puerto = atoi(puertostring);
 	printf ("Puerto Server: %d\n", puerto);
-	//Parseamos para dejar en la variable dirraiz el directorio raiz especificado en el archivo de configuracion (pero en string)
+	//Parseamos para dejar en la variable dirraiz el directorio raiz especificado en el archivo de configuracion
 	dirraiz = strtok (NULL, "=");
 	dirraiz = strtok (NULL, "\n");
 	printf ("Directorio Raiz: %s\n", dirraiz);
@@ -118,6 +119,10 @@ int main(int argc, char *const argv[]){
 	baudiosstring = strtok (NULL, "\n");
 	baudios = atoi(baudiosstring); //transformamos el string a int y lo guardamos en la variable baudios
 	printf ("Baudios Coordinador: %d\n", baudios);
+	//Parseamos para dejar en la variable dirbeeboxmqsend la ruta dónde está dicho ejecutable
+	dirbeeboxmqsend = strtok (NULL, "=");
+	dirbeeboxmqsend = strtok (NULL, "\n");
+	printf ("Ejecutable beeboxmqsend Raiz: %s\n", dirbeeboxmqsend);
 
 
 	//Setea la conexión con el xbee coordinador por puerto serie
