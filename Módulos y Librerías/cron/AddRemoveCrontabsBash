@@ -1,0 +1,11 @@
+//Ejemplo agregar tarea que cambie primer led cada 1 minuto
+(crontab -l && echo "*/1 * * * * /home/nicolas/Escritorio/beebox/xbee/xbee -r 0013A2004086A3FF -p 1 -c c") | crontab -
+
+//Ejemplo agregar tarea que cambie primer led cada 1 minuto
+(crontab -l | grep -v "\*/1 \* \* \* \* /home/nicolas/Escritorio/beebox/xbee/xbee -r 0013A2004086A3FF -p 1 -c c" && echo "*/1 * * * * /home/nicolas/Escritorio/beebox/xbee/xbee -r 0013A2004086A3FF -p 1 -c c") | crontab -
+
+//Ejemplo quuitar comando anterior (hay que escapar los asteriscos)
+crontab -l | grep -v "\*/1 \* \* \* \* /home/nicolas/Escritorio/beebox/xbee/xbee -r 0013A2004086A3FF -p 1 -c c"  | crontab -
+
+//Notas
+El "-" al final de "crontab -" es la STDOUT en Linux.

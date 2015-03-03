@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link href="/css/codiqa.ext.css" rel="stylesheet">
+	<link href="/css/jquery.mobile-1.4.2.css" rel="stylesheet">
+	<link href="/css/animate.min.css" rel="stylesheet">
+
+	<style>
+		.kitkat-success {
+			/* OVERWRITES */
+			background-color:      #009688 !important;
+			-webkit-border-radius: 24px !important;
+					border-radius: 24px !important;
+		}
+		.kitkat-success p {
+			/* OVERWRITES */
+			padding:    12px 24px !important;
+		}
+		.kitkat-error {
+			/* OVERWRITES */
+			background-color:      #F44336 !important;
+			-webkit-border-radius: 24px !important;
+					border-radius: 24px !important;
+		}
+		.kitkat-error p {
+			/* OVERWRITES */
+			padding:    12px 24px !important;
+		}
+		</style>
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.mobile-1.4.2.min.js"></script>
+	<script src="/js/codiqa.ext.js"></script>
+	<script src="/js/jquery.mobile.toast.min.js"></script>
+
+
+</head>
+<body>
+<div data-role="page" data-control-title="Comandos Nodo 1" data-theme="b"
+id="comandos-nodo-1">
+	<div data-theme="b" data-role="header" data-position="fixed">
+		<h1 class="ui-title">
+			beebox
+		</h1>
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li>
+					<a href="#comandos-nodo-1" data-transition="fade" data-theme="" data-icon="">
+						Nodo 1
+					</a>
+				</li>
+				<li>
+					<a href="#comandos-nodo-2" data-transition="fade" data-theme="" data-icon="">
+						Nodo 2
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div role="main" class="ui-content" style="padding: 5px">
+		<h4>
+			Pin 1
+		</h4>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086A3FF','1','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086A3FF','1','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086A3FF','1','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h4>
+			Pin 2
+		</h4>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086A3FF','2','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086A3FF','2','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086A3FF','2','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h3>
+			Pin 3
+		</h3>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086A3FF','3','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086A3FF','3','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086A3FF','3','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h3>
+			Pin 4
+		</h3>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086A3FF','4','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086A3FF','4','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086A3FF','4','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+	</div>
+	<div data-role="tabbar" data-iconpos="top" data-theme="b">
+		<ul>
+			<li>
+				<a href="#comandos-nodo-1" data-transition="fade" data-theme="" data-icon="gear">
+					Comandos
+				</a>
+			</li>
+			<li>
+				<a href="#tareas-agregar" data-transition="fade" data-theme="" data-icon="bars">
+					Tareas
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div data-role="page" data-control-title="Comandos Nodo 2" data-theme="b"
+id="comandos-nodo-2">
+	<div data-theme="b" data-role="header" data-position="fixed">
+		<h1 class="ui-title">
+			beebox
+		</h1>
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li>
+					<a href="#comandos-nodo-1" data-transition="fade" data-theme="" data-icon="">
+						Nodo 1
+					</a>
+				</li>
+				<li>
+					<a href="#comandos-nodo-2" data-transition="fade" data-theme="" data-icon="">
+						Nodo 2
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div role="main" class="ui-content" style="padding: 5px">
+		<h4>
+			Pin 1
+		</h4>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086AEA6','1','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086AEA6','1','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086AEA6','1','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h4>
+			Pin 2
+		</h4>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086AEA6','2','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086AEA6','2','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086AEA6','2','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h3>
+			Pin 3
+		</h3>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086AEA6','3','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086AEA6','3','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086AEA6','3','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+		<h3>
+			Pin 4
+		</h3>
+		<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<a onclick="enviarComando('0013A2004086AEA6','4','c');" class="ui-btn ">
+					SW
+				</a>
+			</div>
+			<div class="ui-block-b">
+				<a onclick="enviarComando('0013A2004086AEA6','4','e');" class="ui-btn ">
+					ON
+				</a>
+			</div>
+			<div class="ui-block-c">
+				<a onclick="enviarComando('0013A2004086AEA6','4','a');" class="ui-btn ">
+					OFF
+				</a>
+			</div>
+		</div>
+	</div>
+	<div data-role="tabbar" data-iconpos="top" data-theme="b">
+		<ul>
+			<li>
+				<a href="#comandos-nodo-1" data-transition="fade" data-theme="" data-icon="gear">
+					Comandos
+				</a>
+			</li>
+			<li>
+				<a href="#tareas-agregar" data-transition="fade" data-theme="" data-icon="bars">
+					Tareas
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div data-role="page" data-control-title="Tareas Agregar" data-theme="b"
+id="tareas-agregar">
+	<div data-theme="b" data-role="header" data-position="fixed">
+		<h1 class="ui-title">
+			beebox
+		</h1>
+	</div>
+	<div role="main" class="ui-content" style="padding: 5px">
+		<form action="/tarea.json" method="POST" id="form-tarea">
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu1">
+					Nodo Remoto
+				</label>
+				<select id="selectmenu1" data-native-menu="false" name="remoto">
+					<option value="0013A2004086A3FF">
+						Nodo 1
+					</option>
+					<option value="0013A2004086AEA6">
+						Nodo 2
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu2">
+					Pin
+				</label>
+				<select id="selectmenu2" data-native-menu="false" name="pin">
+					<option value="1">
+						1
+					</option>
+					<option value="2">
+						2
+					</option>
+					<option value="3">
+						3
+					</option>
+					<option value="4">
+						4
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu9">
+					Comando
+				</label>
+				<select id="selectmenu9" data-native-menu="false" name="comando">
+					<option value="c">
+						Cambiar
+					</option>
+					<option value="e">
+						Encender
+					</option>
+					<option value="a">
+						Apagar
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu7">
+					Minuto
+				</label>
+				<select id="selectmenu7" data-native-menu="false" name="minuto">
+					<option value="*">
+						Todos
+					</option>
+					<option value="*/1">
+						Cada 1
+					</option>
+					<option value="*/5">
+						Cada 5
+					</option>
+					<option value="*/10">
+						Cada 10
+					</option>
+					<option value="*/30">
+						Cada 30
+					</option>
+					<option value="0">
+						0
+					</option>
+					<option value="15">
+						15
+					</option>
+					<option value="30">
+						30
+					</option>
+					<option value="45">
+						45
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu8">
+					Hora
+				</label>
+				<select id="selectmenu8" data-native-menu="false" name="hora">
+					<option value="*">
+						Todos
+					</option>
+					<option value="*/1">
+						Cada 1
+					</option>
+					<option value="*/6">
+						Cada 6
+					</option>
+					<option value="*/12">
+						Cada 12
+					</option>
+					<option value="1">
+						1
+					</option>
+					<option value="2">
+						2
+					</option>
+					<option value="3">
+						3
+					</option>
+					<option value="4">
+						4
+					</option>
+					<option value="5">
+						5
+					</option>
+					<option value="6">
+						6
+					</option>
+					<option value="7">
+						7
+					</option>
+					<option value="8">
+						8
+					</option>
+					<option value="9">
+						9
+					</option>
+					<option value="10">
+						10
+					</option>
+					<option value="11">
+						11
+					</option>
+					<option value="12">
+						12
+					</option>
+					<option value="13">
+						13
+					</option>
+					<option value="14">
+						14
+					</option>
+					<option value="15">
+						15
+					</option>
+					<option value="16">
+						16
+					</option>
+					<option value="17">
+						17
+					</option>
+					<option value="18">
+						18
+					</option>
+					<option value="19">
+						19
+					</option>
+					<option value="20">
+						20
+					</option>
+					<option value="21">
+						21
+					</option>
+					<option value="22">
+						22
+					</option>
+					<option value="23">
+						23
+					</option>
+					<option value="0">
+						0
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu3">
+					Día Del Mes
+				</label>
+				<select id="selectmenu3" data-native-menu="false" name="diaDelMes">
+					<option value="*">
+						Todos
+					</option>
+					<option value="1">
+						1
+					</option>
+					<option value="2">
+						2
+					</option>
+					<option value="3">
+						3
+					</option>
+					<option value="4">
+						4
+					</option>
+					<option value="5">
+						5
+					</option>
+					<option value="6">
+						6
+					</option>
+					<option value="7">
+						7
+					</option>
+					<option value="8">
+						8
+					</option>
+					<option value="9">
+						9
+					</option>
+					<option value="10">
+						10
+					</option>
+					<option value="11">
+						11
+					</option>
+					<option value="12">
+						12
+					</option>
+					<option value="13">
+						13
+					</option>
+					<option value="14">
+						14
+					</option>
+					<option value="15">
+						15
+					</option>
+					<option value="16">
+						16
+					</option>
+					<option value="17">
+						17
+					</option>
+					<option value="18">
+						18
+					</option>
+					<option value="19">
+						19
+					</option>
+					<option value="20">
+						20
+					</option>
+					<option value="21">
+						21
+					</option>
+					<option value="22">
+						22
+					</option>
+					<option value="23">
+						23
+					</option>
+					<option value="24">
+						24
+					</option>
+					<option value="25">
+						25
+					</option>
+					<option value="26">
+						26
+					</option>
+					<option value="27">
+						27
+					</option>
+					<option value="28">
+						28
+					</option>
+					<option value="29">
+						29
+					</option>
+					<option value="30">
+						30
+					</option>
+					<option value="31">
+						31
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu5">
+					Mes
+				</label>
+				<select id="selectmenu5" data-native-menu="false" name="mes">
+					<option value="*">
+						Todos
+					</option>
+					<option value="1">
+						Enero
+					</option>
+					<option value="2">
+						Febrero
+					</option>
+					<option value="3">
+						Marzo
+					</option>
+					<option value="4">
+						Abril
+					</option>
+					<option value="5">
+						Mayo
+					</option>
+					<option value="6">
+						Junio
+					</option>
+					<option value="7">
+						Julio
+					</option>
+					<option value="8">
+						Agosto
+					</option>
+					<option value="9">
+						Septiembre
+					</option>
+					<option value="10">
+						Octubre
+					</option>
+					<option value="11">
+						Noviembre
+					</option>
+					<option value="12">
+						Diciembre
+					</option>
+				</select>
+			</div>
+			<div class="ui-field-contain" data-controltype="selectmenu">
+				<label for="selectmenu6">
+					Día de la Semana
+				</label>
+				<select id="selectmenu6" data-native-menu="false" name="diaDeLaSemana">
+					<option value="*">
+						Todos
+					</option>
+					<option value="1">
+						Lunes
+					</option>
+					<option value="2">
+						Martes
+					</option>
+					<option value="3">
+						Miércoles
+					</option>
+					<option value="4">
+						Jueves
+					</option>
+					<option value="5">
+						Viernes
+					</option>
+					<option value="6">
+						Sábado
+					</option>
+					<option value="0">
+						Domingo
+					</option>
+				</select>
+			</div>
+			<input onclick="agregarTarea();" type="button" data-icon="edit" data-iconpos="top" value="Agregar">
+			<input onclick="quitarTarea();" type="button" data-icon="delete" data-iconpos="top" value="Quitar">
+		</form>
+	</div>
+	<div data-role="tabbar" data-iconpos="top" data-theme="b">
+		<ul>
+			<li>
+				<a href="#comandos-nodo-1" data-transition="fade" data-theme="" data-icon="gear">
+					Comandos
+				</a>
+			</li>
+			<li>
+				<a href="#tareas-agregar" data-transition="fade" data-theme="" data-icon="bars">
+					Tareas
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="ui-loader ui-corner-all ui-body-b ui-loader-verbose"><span class="ui-icon-loading"></span><h1>Esperando Respuesta...</h1></div>
+</body>
+</html>
+
+<script>
+
+	function enviarComando(remoto, pin, comando) {
+		//TODO: Mostrar Loader
+		$.ajax({
+			type: 'post',
+			url: '/comando.json',
+			data: 'comando_xbee='+encodeURIComponent('{"remoto":"'+remoto+'","pin":"'+pin+'","comando":"'+comando+'"}'),
+			dataType: 'json',
+			success: function(response) {
+				if (response.content == "OK") {
+					// alert ("OK");
+					$.mobile.toast({
+						message: "OK",
+						classOnOpen: "kitkat-success"
+					});
+				}else{
+					// alert ("Algo salió mal...");
+					$.mobile.toast({
+						message: "Algo salió mal...",
+						classOnOpen: "kitkat-error"
+					});
+				}
+			},
+			error: function(e) {
+				alert ("Error Ajax");
+			},
+			complete: function(){
+				//TODO: Quitar Loader
+			}
+		});
+	};
+
+	function agregarTarea() {
+		//TODO: Mostrar Loader
+		var formData = $('#form-tarea').serializeArray();
+		// console.log(formData);
+
+		$.ajax({
+			type: 'post',
+			url: '/tarea.json',
+			data: 'tarea_xbee='+encodeURIComponent('{"accion":"a","remoto":"'+formData[0].value+'","pin":"'+formData[1].value+'","comando":"'+formData[2].value+'","minuto":"'+formData[3].value+'","hora":"'+formData[4].value+'","diaDelMes":"'+formData[5].value+'","mes":"'+formData[6].value+'","diaDeLaSemana":"'+formData[7].value+'"}'),
+			dataType: 'json',
+			success: function(response) {
+				if (response.content == "OK") {
+					// alert ("OK");
+					$.mobile.toast({
+						message: "OK",
+						classOnOpen: "kitkat-success"
+					});
+				}else{
+					// alert ("Algo salió mal...");
+					$.mobile.toast({
+						message: "Algo salió mal...",
+						classOnOpen: "kitkat-error"
+					});
+				}
+			},
+			error: function(e) {
+				alert ("Error Ajax");
+			},
+			complete: function(){
+				//TODO: Quitar Loader
+			}
+		});
+	};
+
+	function quitarTarea() {
+		//TODO: Mostrar Loader
+		var formData = $('#form-tarea').serializeArray();
+		// console.log(formData);
+
+		$.ajax({
+			type: 'post',
+			url: '/tarea.json',
+			data: 'tarea_xbee='+encodeURIComponent('{"accion":"q","remoto":"'+formData[0].value+'","pin":"'+formData[1].value+'","comando":"'+formData[2].value+'","minuto":"'+formData[3].value+'","hora":"'+formData[4].value+'","diaDelMes":"'+formData[5].value+'","mes":"'+formData[6].value+'","diaDeLaSemana":"'+formData[7].value+'"}'),
+			dataType: 'json',
+			success: function(response) {
+				if (response.content == "OK") {
+					// alert ("OK");
+					$.mobile.toast({
+						message: "OK",
+						classOnOpen: "kitkat-success"
+					});
+				}else{
+					// alert ("Algo salió mal...");
+					$.mobile.toast({
+						message: "Algo salió mal...",
+						classOnOpen: "kitkat-error"
+					});
+				}
+			},
+			error: function(e) {
+				alert ("Error Ajax");
+			},
+			complete: function(){
+				//TODO: Quitar Loader
+			}
+		});
+	};
+</script>

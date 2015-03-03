@@ -117,12 +117,12 @@ int main(int argc, char *const argv[]){
 	printf ("Ejecutable beeboxmqsend Raiz: %s\n", dirbeeboxmqsend);
 
 
-	//Setea la conexión con el xbee coordinador por puerto serie
-	if ((err = xbee_setup(&xbee, "xbeeZB", puertoserie, baudios)) != XBEE_ENONE) {
-		fprintf(stderr, "ERROR AL INTENTAR ABRIR CONEXIÓN POR PUERTO SERIE: %d (%s)\n", err, xbee_errorToStr(err));
-		return err;
-	}
-	printf ("Conexión con coordinador establecida en %s a %d baudios.\n", puertoserie, baudios);
+	// //Setea la conexión con el xbee coordinador por puerto serie
+	// if ((err = xbee_setup(&xbee, "xbeeZB", puertoserie, baudios)) != XBEE_ENONE) {
+	// 	fprintf(stderr, "ERROR AL INTENTAR ABRIR CONEXIÓN POR PUERTO SERIE: %d (%s)\n", err, xbee_errorToStr(err));
+	// 	return err;
+	// }
+	// printf ("Conexión con coordinador establecida en %s a %d baudios.\n", puertoserie, baudios);
 
 
 	//Si se seteó la opciónde ipv6 se abre un socket ipv6, si no uno ipv4
